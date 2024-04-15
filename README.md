@@ -1,2 +1,0 @@
-# Supremo
-Projekt KCK/PIO
