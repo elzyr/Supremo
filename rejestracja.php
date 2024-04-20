@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_message = "Błąd, skontaktuj się z pracownikiem.";
         }
     }
-    $stmt->close();
+    //$stmt->close();
 }
 $conn->close();
 ?>

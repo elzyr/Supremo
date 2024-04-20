@@ -49,29 +49,24 @@ $conn->close();
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zaloguj się!</title>
-    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="login.css" />
+
 </head>
 
 <body>
     <div class="container">
-        <h2>Logowanie</h2>
+        <h2>&lt;S&gt; upremo</h2>
         <form method="post" action="login.php" id="login-form">
             <div class="form-group">
-                <label for="email">E-mail:</label>
-                <input type="text" name="username" id="email" required>
+                <input type="text" name="username" id="email" required placeholder="E-mail">
             </div>
             <div class="form-group">
-                <label for="password">Hasło:</label>
-                <input type="password" name="password" id="password" required>
+                <input type="password" name="password" id="password" required placeholder="Hasło">
             </div>
-
             <?php if (isset($error_message) && !empty($error_message)) : ?>
                 <div class="error-message"><?php echo $error_message; ?></div>
             <?php endif; ?>
             <button type="submit" class="btn btn-login">Zaloguj się</button>
-            <a href="rejestracja.php">
-                <button type="button" class="btn btn-register" onclick="window.location='rejestracja.php';">Nie masz konta? Zarejestruj się tutaj</button>
-            </a>
             <div class="login-recovery">
                 <a href="przypomnienie_hasla.php" class="forgot_password">Forgot password?</a>
             </div>
