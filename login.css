@@ -1,0 +1,96 @@
+body {
+    background-color: #3180C9;
+}
+
+.container {
+    width: 50%;
+    margin: 0 auto;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #3180c9;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center
+
+}
+#login-form {
+    width: 60%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center
+}
+
+h2 {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    color: White;
+    font-size: 54px;
+}
+
+.form-group {
+    width: 100%;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 94%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-group label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #888;
+    transition: all 0.3s ease;
+}
+
+.form-group input[type="text"]:focus + label,
+.form-group input[type="password"]:focus + label,
+.form-group input[type="text"]:not(:placeholder-shown) + label,
+.form-group input[type="password"]:not(:placeholder-shown) + label {
+    top: 0;
+    font-size: 12px;
+    color: #333;
+}
+
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-login {
+    width: 100%;
+    background-color: #7372E6;
+    color: white;
+    border-radius: 25px;
+}
+.login-recovery {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 12px;
+}
+.forgot_password{
+    text-decoration: none;
+    color: white;
+
+}
