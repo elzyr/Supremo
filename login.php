@@ -1,6 +1,9 @@
 <?php
 include("class/uzytkownik.php");
 $error_message = "";
+if (Uzytkownik::loadFromSession() != null) {
+    header('Location: dashboard.php');
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = validateInput($_POST['username']);
@@ -10,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Niepoprawne dane!";
     } else {
         //tutaj redirect
-        header('Location: https://wp.pl');
+        header('Location: dashboard.php');
     }
 }
 

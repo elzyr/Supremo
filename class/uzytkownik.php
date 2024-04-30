@@ -48,7 +48,7 @@ class Uzytkownik
         return true;
     }
 
-    public function saveToSession(): void
+    function saveToSession(): void
     {
         $_SESSION['uzytkownik'] = serialize($this);
     }
@@ -71,6 +71,7 @@ class Uzytkownik
         $result = $stmt->get_result();
         if ($result->num_rows == 1) {
             $this->id = $result->fetch_assoc()["idUzytkownika"];
+            $this->saveToSession();
         }
         $stmt->close();
         $conn->close();
@@ -80,5 +81,16 @@ class Uzytkownik
     public function logout(): void
     {
         unset($_SESSION['uzytkownik']);
+    }
+    public function changePassword(string $newPassword): void
+    {
+        $newHashedPassword = md5($newPassword);
+        require("./php/dbConnect.php");
+        $sql = "UPDATE uzytkownicy SET haslo=? WHERE email=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ss", $newHashedPassword, $this->email);
+        $stmt->execute();
+        $stmt->close();
+        $conn->close();
     }
 }
