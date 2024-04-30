@@ -1,50 +1,22 @@
 <?php
-$host = 'localhost';
-$dbUsername = 'root';
-$dbPassword = '';
-$dbName = 'pio';
-$conn = new mysqli($host, $dbUsername, $dbPassword, $dbName);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-function validateInput($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
+include("class/uzytkownik.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $firstName = validateInput($_POST['name']); // Corrected from 'first_name' to 'name'
-    $lastName = validateInput($_POST['last_name']);
-    $email = validateInput($_POST['email']);
-    $password = validateInput($_POST['password']);
-
-    // Validate inputs
-    if (!preg_match("/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ ]*$/", $firstName) || !preg_match("/^[a-zA-ZąĄćĆęĘłŁńŃóÓśŚżŻźŹ ]*$/", $lastName)) {
+    if (!isCorrectName($_POST['name']) || !isCorrectName($_POST['last_name'])) {
         $error_message = "Podaj poprawne Imie";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $error_message = "Niepoprawny format e-maila";
     } else {
-        // Secure password hashing
-        $password_hash = md5($password);
-        $sql = "INSERT INTO users (email, password, firstname, lastname) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $email, $password_hash, $firstName, $lastName);
-        $stmt->execute();
-
-        if ($stmt->affected_rows == 1) {
-            header("Location: login.php");
-            exit;
+        $user = new Uzytkownik($_POST['email'],  $_POST['password']);
+        if ($user->create($_POST['name'], $_POST['last_name'], $_POST['phone']) == true) {
+            $error_message = 'Konto stworzone pomyślnie!';
+            header('Location: login.php');
         } else {
-            $error_message = "Błąd, skontaktuj się z pracownikiem.";
+            $error_message = 'Konto o podanym adresie email już istnieje!';
         }
     }
-    //$stmt->close();
 }
-$conn->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -71,29 +43,30 @@ $conn->close();
         <form method="post" class="registration" id="login-form">
             <div class="form-group">
                 <div class="label-group">
-                    <i class="fas fa-envelope"></i>
-                    <label for="email">E-mail:</label>
-                    <input type="text" name="email" required>
+                    <label name="email">E-mail:</label>
+                    <input type="text" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" required>
                 </div>
             </div>
             <div class="form-group">
                 <div class="label-group">
-                    <i class="fas fa-key"></i>
-                    <label for="password">Hasło:</label>
+                    <label name="password">Hasło:</label>
                     <input type="password" name="password" required>
                 </div>
             </div>
             <div class="form-group">
-                <label for="name">Imię:</label>
-                <input type="text" name="name" required>
+                <label name="name">Imię:</label>
+                <input type="text" name="name" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>" required>
             </div>
             <div class="form-group">
-                <label for="surname">Nazwisko:</label>
-                <input type="text" name="last_name" required>
+                <label name="surname">Nazwisko:</label>
+                <input type="text" name="last_name" value="<?php echo isset($_POST['last_name']) ? htmlspecialchars($_POST['last_name']) : ''; ?>" required>
             </div>
-
+            <div class="form-group">
+                <label name="phone">Numer telefonu:</label>
+                <input type="text" name="phone" required pattern="[0-9]{9}" value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>"><br>
+            </div>
             <?php if (!empty($error_message)) : ?>
-                <div class="error_message"><?php echo $error_message; ?></div>
+                <div class="error-message"><?php echo $error_message; ?></div>
             <?php endif; ?>
             <button type="submit" class="btn btn-login">Rozpocznij!</button>
             <a href="login.php">
