@@ -14,6 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->get_result()->num_rows == 1) {
             $user = new Uzytkownik($email, "");
             $user->changePassword($_POST['new_password']);
+            header("location: login.php");
+        } else {
+            $error_message = "Nie znaleziono użytkownika!";
         }
     }
 }
@@ -50,6 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
             <button type="submit" class="btn btn-login">Zmień Hasło</button>
         </form>
+        <a href="login.php" class="forgot_password">Zaloguj się</a>
     </div>
 </body>
 
