@@ -1,13 +1,13 @@
 <?php
 include("class/uzytkownik.php");
 $error_message = "";
-if (Uzytkownik::loadFromSession() != null) {
+if (Uzytkownik::loadFromSession()) {
     header('Location: dashboard.php');
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = validateInput($_POST['username']);
-    $password = validateInput($_POST['password']);
+    $email = $_POST['username'];
+    $password = $_POST['password'];
     $user = new Uzytkownik($email, $password);
     if (!$user->login()) {
         $error_message = "Niepoprawne dane!";
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
             <button type="submit" class="btn btn-login">Zaloguj się</button>
             <div class="login-recovery">
-                <a href="przypomnienie_hasla.php" class="forgot_password">Forgot password?</a>
+                <a href="reset_hasla.php" class="forgot_password">Forgot password?</a>
             </div>
         </form>
     </div>
