@@ -8,7 +8,7 @@ class Uzytkownik
     private string $hashedPassword;
 
     private int $id;
-    private string $imie;
+    private string $name;
 
     public function __construct(string $email, string $password)
     {
@@ -16,9 +16,28 @@ class Uzytkownik
         $this->hashedPassword = md5(validateInput($password));
     }
 
-    public function getEmail(): string
+    public function login(): bool
     {
-        return $this->email;
+        require("./php/dbConnect.php");
+        $sql = "SELECT * FROM uzytkownicy WHERE email=? AND haslo=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ss", $this->email, $this->hashedPassword);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $this->id = $row["idUzytkownika"];
+            $this->name = $row["imie"];
+            $this->saveToSession();
+        }
+        $stmt->close();
+        $conn->close();
+        return ($result->num_rows == 1);
+    }
+
+    public function logout(): void
+    {
+        unset($_SESSION['uzytkownik']);
     }
 
     private function checkAvailability(): bool
@@ -48,7 +67,7 @@ class Uzytkownik
         return true;
     }
 
-    function saveToSession(): void
+    private function saveToSession(): void
     {
         $_SESSION['uzytkownik'] = serialize($this);
     }
@@ -61,27 +80,6 @@ class Uzytkownik
         return null;
     }
 
-    public function login(): bool
-    {
-        require("./php/dbConnect.php");
-        $sql = "SELECT * FROM uzytkownicy WHERE email=? AND haslo=?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $this->email, $this->hashedPassword);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows == 1) {
-            $this->id = $result->fetch_assoc()["idUzytkownika"];
-            $this->saveToSession();
-        }
-        $stmt->close();
-        $conn->close();
-        return ($result->num_rows == 1);
-    }
-
-    public function logout(): void
-    {
-        unset($_SESSION['uzytkownik']);
-    }
     public function changePassword(string $newPassword): void
     {
         $newHashedPassword = md5($newPassword);
@@ -92,5 +90,14 @@ class Uzytkownik
         $stmt->execute();
         $stmt->close();
         $conn->close();
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+    public function getName(): string
+    {
+        return $this->name;
     }
 }
