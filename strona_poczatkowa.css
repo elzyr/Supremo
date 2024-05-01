@@ -1,0 +1,67 @@
+body {
+    background-color: #3180C9;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    font-family:'Century Gothic';
+    color: White;
+    font-size: 54px;
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+}
+
+
+.greetings-box {
+    width: 50%;
+    margin: auto;
+    background: white;
+    padding: 10px;
+    position: relative;
+    padding: 10px;
+    margin-top: 60px;
+    margin-bottom: 100px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);  
+    border-radius: 10px;
+}
+.greetings-box::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 20%; 
+    transform: translate(-50%, -50%) rotate(45deg);
+    background: white;
+    height: 20px;
+    width: 20px;
+}
+.greeting {
+    font-size: 30px;
+    color: #7372E6;
+}
+
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 30px;
+    font-family: 'Inter';
+    font-size: 24px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+}
+.btn-login {
+    width: 100%;
+    background-color: #7372E6;
+    color: white;
+    border-radius: 25px;
+}
+
