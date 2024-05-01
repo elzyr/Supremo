@@ -1,10 +1,12 @@
 <?php
 include("class/uzytkownik.php");
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if ((Uzytkownik::loadFromSession()) == null) {
-        header('Location: login.php');
-    }
+$user = Uzytkownik::loadFromSession();
+if (!$user) {
+    echo "test";
+    header('Location: login.php');
+}
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user->logout();
     header('Location: login.php');
 }
