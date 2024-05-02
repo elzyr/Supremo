@@ -1,44 +1,22 @@
 <?php
-$host = 'localhost';
-$dbUsername = 'root';
-$dbPassword = '';
-$dbName = 'pio';
-$conn = new mysqli($host, $dbUsername, $dbPassword, $dbName);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-function validateInput($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
+include("class/uzytkownik.php");
+$error_message = "";
+if (Uzytkownik::loadFromSession()) {
+    header('Location: dashboard.php');
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = validateInput($_POST['username']);
-    $password = validateInput($_POST['password']);
-
-    $password_hash = md5($password);
-    $sql = "SELECT * FROM users WHERE email=? AND password=?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $email, $password_hash);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows == 1) {
-        session_start();
-        $_SESSION['loggedin'] = true;
-        $_SESSION['email'] = $email;
-        header("Location: https://wp.pl");
-        exit;
+    $email = $_POST['username'];
+    $password = $_POST['password'];
+    $user = new Uzytkownik($email, $password);
+    if (!$user->login()) {
+        $error_message = "Niepoprawne dane!";
     } else {
-        $error_message = "Nieprawidłowy e-mail lub hasło";
+        //tutaj redirect
+        header('Location: dashboard.php');
     }
-    $stmt->close();
 }
-$conn->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +46,7 @@ $conn->close();
             <?php endif; ?>
             <button type="submit" class="btn btn-login">Zaloguj się</button>
             <div class="login-recovery">
-                <a href="przypomnienie_hasla.php" class="forgot_password">Forgot password?</a>
+                <a href="reset_hasla.php" class="forgot_password">Forgot password?</a>
             </div>
         </form>
     </div>
