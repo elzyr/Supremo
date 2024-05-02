@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <div class="container">
-        <h2>Przypomnij hasło</h2>
+        <h2>&lt;S&gt; upremo</h2>
         <form method="post">
             <div class="form-group">
                 <input type="text" name="email" required placeholder="E-mail:">
