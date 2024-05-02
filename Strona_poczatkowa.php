@@ -37,9 +37,13 @@ function generateGreetingsScript() {
         <div class="greetings-box tooltip-top">
             <p id="greeting" class="greeting" data-index="0">CZEŚĆ!</p>
         </div>
-        <form method="post" action="Strona_poczatkowap.php" id="form">
-            <button type="submit" class="btn btn-login"formaction="rejestracja.php">Zarejestruj się</button>
-            <button type="submit" class="btn btn-login"formaction="login.php">Zaloguj się</button>
+        <form method="post" id="form">
+            <a href="rejestracja.php">
+                 <button type="button" class="btn btn-login">Zarejestruj się</button>
+            </a>
+            <a href="login.php">
+                <button type="button" class="btn btn-login">Zaloguj się</button>
+            </a>
         </form>
     </div>
 
