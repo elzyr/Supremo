@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="shortcut icon" type="image/x-icon" href="images/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dołącz już dziś!</title>
-    <link rel="stylesheet" href="css/rejestracja.css" />
+    <link rel="stylesheet" href="rejestracja.css" />
 </head>
 
 <body>
@@ -39,43 +39,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="background-blur"></div>
 
     <div class="container">
-        <h2>Rejestracja</h2>
+        <h2>&lt;S&gt; upremo</h2>
         <form method="post" class="registration" id="login-form">
             <div class="form-group">
-                <div class="label-group">
-                    <label name="email">E-mail:</label>
-                    <input type="text" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" required>
-                </div>
+                <input type="text" name="email" value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" required placeholder="E-mail:">
             </div>
             <div class="form-group">
-                <div class="label-group">
-                    <label name="password">Hasło:</label>
-                    <input type="password" name="password" required>
-                </div>
+                <input type="password" name="password" required placeholder="Hasło:">
             </div>
             <div class="form-group">
-                <label name="name">Imię:</label>
-                <input type="text" name="name" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>" required>
+                <input type="text" name="name" value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>" required placeholder="Imię:">
             </div>
             <div class="form-group">
-                <label name="surname">Nazwisko:</label>
-                <input type="text" name="last_name" value="<?php echo isset($_POST['last_name']) ? htmlspecialchars($_POST['last_name']) : ''; ?>" required>
+                <input type="text" name="last_name" value="<?php echo isset($_POST['last_name']) ? htmlspecialchars($_POST['last_name']) : ''; ?>" required placeholder="Nazwisko:">
             </div>
             <div class="form-group">
-                <label name="phone">Numer telefonu:</label>
-                <input type="text" name="phone" required pattern="[0-9]{9}" value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>"><br>
+                <input type="text" name="phone" required pattern="[0-9]{9}" value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>"required placeholder="Numer Tel:"><br>
             </div>
             <?php if (!empty($error_message)) : ?>
                 <div class="error-message"><?php echo $error_message; ?></div>
             <?php endif; ?>
-            <button type="submit" class="btn btn-login">Rozpocznij!</button>
+            <button type="submit" class="btn btn-register">Stwórz Konto</button>
             <a href="login.php">
-                <button type="button" class="btn btn-register">Masz już konto? Zaloguj się!</button>
+                <button type="button" class="btn btn-login">Zaloguj się</button>
             </a>
         </form>
-        <div class="login-recovery">
-            <a href="przypomnienie_hasla.php" class="forgot_password">Forgot password?</a>
-        </div>
     </div>
 
 
