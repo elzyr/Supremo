@@ -29,31 +29,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Przypomnij hasło</title>
-    <link rel="stylesheet" href="css/przypomnienie_hasla.css">
+    <link rel="stylesheet" href="reset_hasla.css">
 </head>
 
 <body>
     <div class="container">
-        <h2>Przypomnij hasło</h2>
+        <h2>&lt;S&gt; upremo</h2>
         <form method="post">
             <div class="form-group">
-                <label for="email">E-mail:</label>
-                <input type="email" name="email" required>
+                <input type="text" name="email" required placeholder="E-mail:">
             </div>
             <div class="form-group">
-                <label for="phone">Numer Telefonu:</label>
-                <input type="text" name="phone" required>
+                <input type="text" name="phone" required placeholder="Numer Telefonu:">
             </div>
             <div class="form-group">
-                <label for="new_password">Nowe Hasło:</label>
-                <input type="password" name="new_password" required>
+                <input type="password" name="new_password" required placeholder="Nowe Hasło:">
             </div>
             <?php if (isset($error_message) && !empty($error_message)) : ?>
                 <div class="error-message"><?php echo $error_message; ?></div>
             <?php endif; ?>
-            <button type="submit" class="btn btn-login">Zmień Hasło</button>
+            <button type="button" class="btn forgot_password">Zmień Hasło</button>
+            <a href="login.php">
+                <button type="button" class="btn btn-login">Zaloguj się</button>
+            </a>
         </form>
-        <a href="login.php" class="forgot_password">Zaloguj się</a>
     </div>
 </body>
 

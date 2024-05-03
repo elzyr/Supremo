@@ -64,17 +64,25 @@ h2 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 60px;
-    margin-bottom: 10px;
     font-family: 'Inter';
     font-size: 24px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+}
+.btn-register{
+    width: 100%;
+    background-color: #7372E6;
+    color: white;
+    border-radius: 25px;
+    margin-top: 60px;
+    margin-bottom: 10px;
 }
 .btn-login {
     width: 100%;
     background-color: #7372E6;
     color: white;
     border-radius: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .login-recovery {
     text-align: center;
