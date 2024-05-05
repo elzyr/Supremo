@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zaloguj się!</title>
-    <link rel="stylesheet" href="login.css" />
+    <link rel="stylesheet" href="css/forms.css" />
 
 </head>
 
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
             <button type="submit" class="btn btn-login">Zaloguj się</button>
             <div class="login-recovery">
-                <a href="reset_hasla.php" class="forgot_password">Forgot password?</a>
+                <a href="reset-hasla.php" class="forgot_password">Forgot password?</a>
             </div>
         </form>
     </div>

@@ -1,6 +1,6 @@
 <?php
-// Definicja funkcji zmieniającej powitanie
-function generateGreetingsScript() {
+function generateGreetingsScript()
+{
     echo "
     <script>
         function changeGreeting() {
@@ -28,7 +28,7 @@ function generateGreetingsScript() {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supremo</title>
-    <link rel="stylesheet" href="strona_poczatkowa.css">
+    <link rel="stylesheet" href="css/strona-poczatkowa.css">
 </head>
 
 <body>
@@ -39,7 +39,7 @@ function generateGreetingsScript() {
         </div>
         <form method="post" id="form">
             <a href="rejestracja.php">
-                 <button type="button" class="btn btn-login">Zarejestruj się</button>
+                <button type="button" class="btn btn-login">Zarejestruj się</button>
             </a>
             <a href="login.php">
                 <button type="button" class="btn btn-login">Zaloguj się</button>
@@ -47,7 +47,7 @@ function generateGreetingsScript() {
         </form>
     </div>
 
-    <?php generateGreetingsScript();?>
+    <?php generateGreetingsScript(); ?>
 
     <script>
         setInterval(changeGreeting, 3000);

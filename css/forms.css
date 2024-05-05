@@ -1,0 +1,101 @@
+body {
+  background-color: #3180c9;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+}
+
+h2 {
+  margin: 20px auto;
+  margin-bottom: 60px;
+  text-align: center;
+  font-family: "Century Gothic";
+  color: white;
+  font-size: 54px;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  width: 95%;
+  margin: auto;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"] {
+  width: 94%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-group label {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #888;
+  transition: all 0.3s ease;
+}
+
+.form-group input[type="text"]:focus + label,
+.form-group input[type="password"]:focus + label,
+.form-group input[type="text"]:not(:placeholder-shown) + label,
+.form-group input[type="password"]:not(:placeholder-shown) + label {
+  top: 0;
+  font-size: 12px;
+  color: #333;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Inter";
+  font-size: 24px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  background-color: #7372e6;
+  color: white;
+  border-radius: 25px;
+  margin-bottom: 30px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+    transform 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #8a89ee;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+}
+.btn:active {
+  background-color: #6160b3;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  transform: translateY(1px);
+}
+
+.login-recovery {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 12px;
+}
+
+.forgot_password {
+  text-decoration: none;
+  color: white;
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}

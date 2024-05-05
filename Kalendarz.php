@@ -1,1 +1,1 @@
-<?php include 'navbar.php'; ?>
+<?php require('navbar.php');
