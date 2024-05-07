@@ -1,0 +1,32 @@
+table {
+    margin-left: 220px;
+    margin-top: 50px;
+    border-collapse: collapse;
+    width: 80%;
+    table-layout: fixed;/*ta sama szerokość kolumn*/ 
+    overflow-x: auto;/*dodaje pasek przesowania jeśli kalendarz sie nie zmiesci*/
+}
+h2{
+    margin-left: 230px;
+    margin-top: 50px;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+    min-width: 40px;/*min szerokosc kolumny */
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.current-month {
+    background-color: #cce5ff;
+}
+
+.other-month {
+    background-color: #f2f2f2;
+    color: #999;
+}
