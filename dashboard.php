@@ -1,9 +1,5 @@
 <?php
-include("class/uzytkownik.php");
-$user = Uzytkownik::loadFromSession();
-if (!$user) {
-    header('Location: login.php');
-}
+require("php/verifyUser.php"); //automatycznie sprawdza czy uzytkownik jest zalogowany i jesli tak to umozliwia dzialanie na nim
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user->logout();
