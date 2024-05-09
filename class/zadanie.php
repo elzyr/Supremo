@@ -43,24 +43,24 @@ class Zadanie  // nwm jak to przetestowac ale cos napisalem
         return $this->idZadania;
     }
 
-    public function create (string $tytul, string $opis, string $dataRozpoczecia, string $dataZakonczenia): bool
+    public function create (int $idZadania, string $tytul, string $opis, string $dataRozpoczecia, string $dataZakonczenia): bool
     {
         require("./php/dbConnect.php");
-        $sql = "INSERT INTO zadania (tytul, opis, data_rozpoczecia, data_zakonczenia) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO zadania (idZadania, dataRozpoczecia, dataZakonczenia, tytul, opis) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $tytul, $opis, $dataRozpoczecia, $dataZakonczenia);
+        $stmt->bind_param("issss", $idZadania, $dataRozpoczecia, $dataZakonczenia, $tytul, $opis);
         $stmt->execute();
         $stmt->close();
         $conn->close();
         return true;
     }
 
-    public function update (string $tytul, string $opis, string $dataRozpoczecia, string $dataZakonczenia): bool
+    public function update (int $idZadania, string $tytul, string $opis, string $dataRozpoczecia, string $dataZakonczenia): bool
     {
         require("./php/dbConnect.php");
         $sql = "UPDATE zadania SET tytul=?, opis=?, data_rozpoczecia=?, data_zakonczenia=? WHERE idZadania=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssi", $tytul, $opis, $dataRozpoczecia, $dataZakonczenia, $this->idZadania);
+        $stmt->bind_param("issss", $idZadania, $dataRozpoczecia, $dataZakonczenia, $tytul, $opis);
         $stmt->execute();
         $stmt->close();
         $conn->close();
@@ -92,8 +92,8 @@ class Zadanie  // nwm jak to przetestowac ale cos napisalem
             $this->idZadania = $row["idZadania"];
             $this->tytul = $row["tytul"];
             $this->opis = $row["opis"];
-            $this->dataRozpoczecia = $row["data_rozpoczecia"];
-            $this->dataZakonczenia = $row["data_zakonczenia"];
+            $this->dataRozpoczecia = $row["dataRozpoczecia"];
+            $this->dataZakonczenia = $row["dataZakonczenia"];
             $stmt->close();
             $conn->close();
             return true;
