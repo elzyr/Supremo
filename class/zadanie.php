@@ -4,96 +4,96 @@ include("./php/validateInput.php");
 
 class Zadanie  // nwm jak to przetestowac ale cos napisalem
 {
-    private string $title;
-    private string $description;
-    private string $startDate;
-    private string $endDate;
-    private int $id;
+    private string $tytul;
+    private string $opis;
+    private string $dataRozpoczecia;
+    private string $dataZakonczenia;
+    private int $idZadania;
 
-    public function __constructor(string $title, string $description, string $startDate, string $endDate)
+    public function __constructor(string $tytul, string $opis, string $dataRozpoczecia, string $dataZakonczenia)
     {
-        $this->title = validateInput($title);
-        $this->description = validateInput($description);
-        $this->startDate = validateInput($startDate);
-        $this->endDate = validateInput($endDate);
+        $this->tytul = validateInput($tytul);
+        $this->opis = validateInput($opis);
+        $this->dataRozpoczecia = validateInput($dataRozpoczecia);
+        $this->dataZakonczenia = validateInput($dataZakonczenia);
     }
 
     public function getTitle(): string
     {
-        return $this->title;
+        return $this->tytul;
     }
 
     public function getDescription(): string
     {
-        return $this->description;
+        return $this->opis;
     }
 
     public function getStartDate(): string
     {
-        return $this->startDate;
+        return $this->dataRozpoczecia;
     }
 
     public function getEndDate(): string
     {
-        return $this->endDate;
+        return $this->dataZakonczenia;
     }
 
     public function getId(): int
     {
-        return $this->id;
+        return $this->idZadania;
     }
 
-    public function create (string $title, string $description, string $startDate, string $endDate): bool
+    public function create (int $idZadania, string $tytul, string $opis, string $dataRozpoczecia, string $dataZakonczenia): bool
     {
         require("./php/dbConnect.php");
-        $sql = "INSERT INTO zadania (tytul, opis, data_rozpoczecia, data_zakonczenia) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO zadania (idZadania, dataRozpoczecia, dataZakonczenia, tytul, opis) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $title, $description, $startDate, $endDate);
+        $stmt->bind_param("issss", $idZadania, $dataRozpoczecia, $dataZakonczenia, $tytul, $opis);
         $stmt->execute();
         $stmt->close();
         $conn->close();
         return true;
     }
 
-    public function update (string $title, string $description, string $startDate, string $endDate): bool
+    public function update (int $idZadania, string $tytul, string $opis, string $dataRozpoczecia, string $dataZakonczenia): bool
     {
         require("./php/dbConnect.php");
         $sql = "UPDATE zadania SET tytul=?, opis=?, data_rozpoczecia=?, data_zakonczenia=? WHERE idZadania=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssi", $title, $description, $startDate, $endDate, $this->id);
+        $stmt->bind_param("issss", $idZadania, $dataRozpoczecia, $dataZakonczenia, $tytul, $opis);
         $stmt->execute();
         $stmt->close();
         $conn->close();
         return true;
     }
 
-    public function delete (int $id): bool
+    public function delete (int $idZadania): bool
     {
         require("./php/dbConnect.php");
         $sql = "DELETE FROM zadania WHERE idZadania=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id);
+        $stmt->bind_param("i", $idZadania);
         $stmt->execute();
         $stmt->close();
         $conn->close();
         return true;
     }
 
-    public function load (int $id): bool
+    public function load (int $idZadania): bool
     {
         require("./php/dbConnect.php");
         $sql = "SELECT * FROM zadania WHERE idZadania=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id);
+        $stmt->bind_param("i", $idZadania);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            $this->id = $row["idZadania"];
-            $this->title = $row["tytul"];
-            $this->description = $row["opis"];
-            $this->startDate = $row["data_rozpoczecia"];
-            $this->endDate = $row["data_zakonczenia"];
+            $this->idZadania = $row["idZadania"];
+            $this->tytul = $row["tytul"];
+            $this->opis = $row["opis"];
+            $this->dataRozpoczecia = $row["dataRozpoczecia"];
+            $this->dataZakonczenia = $row["dataZakonczenia"];
             $stmt->close();
             $conn->close();
             return true;
