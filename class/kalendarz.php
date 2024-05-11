@@ -1,117 +1,172 @@
 <?php
-trait DateHelpers{
-    public function getMonthNumberDays(){
-        return (int) $this->format('t');
-    }
-    public function getCurrentDayNumber(){
-        return (int) $this->format('j');
-    }
-    public function getMonthNumber(){
-        return (int) $this->format('n');
-    }
-    public function getMonthName(){
-        return $this->format('F');
-    }
-    public function getYear(){
-        return $this->format('Y');
-    }
-}
+class Calendar {  
 
-class ObecnaData extends DateTimeImmutable{
-    use DateHelpers;
-    public function __construct(){
-        parent::__construct();
+    public function __construct(){     
+        $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
     }
-}
-
-class KalendarzData extends DateTime{
-    use DateHelpers;
-    public function __construct(){
-        parent::__construct();
-        $this->modify('first day of this month');
+ 
+    private $dayLabels = array("Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela");
+    private $currentYear=0;
+    private $currentMonth=0;
+    private $currentDay=0;
+    private $currentDate=null;
+    private $daysInMonth=0;
+    private $naviHref= null;
+  
+    public function show() {
+        $year  = null;
+        $month = null;   
+        if(null==$year&&isset($_GET['year'])){
+            $year = $_GET['year'];
+        }else if(null==$year){
+            $year = date("Y",time());  
+        }          
+        if(null==$month&&isset($_GET['month'])){
+            $month = $_GET['month'];
+        }else if(null==$month){
+            $month = date("m",time());
+        }                  
+         
+        $this->currentYear=$year;
+        $this->currentMonth=$month;
+        $this->daysInMonth=$this->daysInMonth($month,$year);  
+         
+        $content='<div id="calendar">'.
+                        '<div class="box">'.
+                        $this->createNavi().
+                        '</div>'.
+                        '<div class="box-content">'.
+                                '<ul class="label">'.$this->createLabels().'</ul>';   
+                                $content.='<div class="clear"></div>';     
+                                $content.='<ul class="dates">';    
+                                 
+                                $weeksInMonth = $this->weeksInMonth($month,$year);
+                                for( $i=0; $i<$weeksInMonth; $i++ ){
+                                    for($j=1;$j<=7;$j++){
+                                        $content.=$this->showDay($i*7+$j);
+                                    }
+                                }
+                                $content.='</ul>'; 
+                                $content.='<div class="clear"></div>';     
+                        $content.='</div>';
+        $content.='</div>';
+        return $content;   
     }
-
-    public function getMonthStartDayOfWeek(){
-        return (int) $this->format('w');
-    }
-}
-
-class Kalendarz{
-    protected $currentDate;
-    protected $calendarDate;
-
-    protected $dayLabels=['Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota','Niedziela'];
-    protected $monthLabels=['Styczeń','Luty','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
-    protected $sundayFirst=true;
-    protected $weeks=[];
-
-    public function __construct(ObecnaData $currentDate,KalendarzData $calendarDate){
-        $this->currentDate=$currentDate;
-        $this->calendarDate=clone $calendarDate;
-        $this->calendarDate->modify('first day of this month');
-    }
-    public function getDayLabels(){
-        return $this->dayLabels;
-    }
-    public function getMonthLabels(){
-        return $this->monthLabels;
-    }
-    public function setSundayFirst($bool){
-        $this->sundayFirst=$bool;
-
-        if(!$this->sundayFirst){
-            array_push($this->dayLabels,array_shift($this->dayLabels));
-        }
-    }
-    public function setMonth($monthNumber){
-        $this->calendarDate->setDate($this->calendarDate->getYear(),$monthNumber,1);
-    }
-    public function getCalendarMonth(){
-        return $this->calendarDate->getMonthName();
-    }
-    public function getCalendarDate() {
-        return $this->calendarDate;
-    }
-    public function getMonthFirstDay(){
-        return $this->calendarDate->getMonthStartDayOfWeek();
-    }
-    public function getWeeks(){
-        return $this->weeks;
-    }
-    public function create(){
-        $days=array_fill(0,($this->getMonthFirstDay()-1),['currentMonth'=>false,'dayNumber'=>'']);
-        for($x=1;$x<=$this->calendarDate->getMonthNumberDays();$x++){
-            $days[]=['currentMonth'=>true,'dayNumber'=>$x];
-        }
-        $this->weeks=array_chunk($days,7);
-
-        $firstWeek=$this->weeks[0];
-        $prevMonth=clone $this->calendarDate;
-        $prevMonth->modify('-1 month');
-        $prevMonthNumDays=$prevMonth->getMonthNumberDays();
-
-        for($x=6;$x>=0;$x--){
-            if(!$firstWeek[$x]['dayNumber']){
-                $firstWeek[$x]['dayNumber']=$prevMonthNumDays;
-                $prevMonthNumDays-=1;
+     
+   
+    private function showDay($cellNumber){
+        if($this->currentDay==0){
+            $firstDayOfTheWeek = date('N',strtotime($this->currentYear.'-'.$this->currentMonth.'-01'));      
+            if(intval($cellNumber) == intval($firstDayOfTheWeek)){
+                $this->currentDay=1;
             }
         }
-        $this->weeks[0]=$firstWeek;
-
-        $lastWeek=$this->weeks[count($this->weeks)-1];
-        $nextMonth=clone $this->calendarDate;
-        $nextMonth->modify('+1 month');
-
-        $c=1;
-        for($x=0;$x<7;$x++){
-            if(!isset($lastWeek[$x])){
-                $lastWeek[$x]['currentMonth']=false;
-                $lastWeek[$x]['dayNumber']=$c;
-                $c++;
-            }
+         
+        if( ($this->currentDay!=0)&&($this->currentDay<=$this->daysInMonth) ){
+            $this->currentDate = date('Y-m-d',strtotime($this->currentYear.'-'.$this->currentMonth.'-'.($this->currentDay)));
+            $cellContent = $this->currentDay;
+            $this->currentDay++;   
+        }else{
+            $this->currentDate =null;
+            $cellContent=null;
         }
-        $this->weeks[count($this->weeks)-1]=$lastWeek;
-    }
-}
 
-?>
+
+        $classes = '';
+        if ($cellNumber % 7 == 1) {
+            $classes .= 'start ';
+        } elseif ($cellNumber % 7 == 0) {
+            $classes .= 'end ';
+        }else if($cellContent == null){
+            $classes .= 'mask';
+        }else{
+            $classes .= 'date';
+        }
+
+        $liElement = '<li id="li-' . $this->currentDate . '" class="' . $classes . '">' . $cellContent . '</li>';
+
+        return $liElement;
+        
+        
+    }
+     
+
+    private function createNavi(){
+        if ($this->currentMonth == 12) {
+            $nextMonth = 1;
+            $nextYear = intval($this->currentYear) + 1;
+        } else {
+            $nextMonth = intval($this->currentMonth) + 1;
+            $nextYear = $this->currentYear;
+        }
+        
+        if ($this->currentMonth == 1) {
+            $preMonth = 12;
+            $preYear = intval($this->currentYear) - 1;
+        } else {
+            $preMonth = intval($this->currentMonth) - 1;
+            $preYear = $this->currentYear;
+        }
+        
+         
+        return
+            '<div class="header">'.
+                '<a class="prev" href="'.$this->naviHref.'?month='.sprintf('%02d',$preMonth).'&year='.$preYear.'">Prev</a>'.
+                    '<span class="title">'.date('Y M',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'</span>'.
+                '<a class="next" href="'.$this->naviHref.'?month='.sprintf("%02d", $nextMonth).'&year='.$nextYear.'">Next</a>'.
+            '</div>';
+    }
+
+    private function createLabels(){  
+                 
+        $content='';
+         
+        foreach($this->dayLabels as $index=>$label){
+            $content .= '<li class="';
+            if ($label == 6) {
+                $content .= 'end title';
+            } else {
+                $content .= 'start title';
+            }
+            $content .= ' title">' . $label . '</li>';
+ 
+        }
+         
+        return $content;
+    }
+
+    private function weeksInMonth($month=null,$year=null){ 
+        if( null==($year) ) {
+            $year =  date("Y",time()); 
+        }
+        if(null==($month)) {
+            $month = date("m",time());
+        } 
+        
+        $daysInMonths = $this->daysInMonth($month,$year);
+        if ($daysInMonths % 7 == 0) {
+            $numOfweeks = 0;
+        } else {
+            $numOfweeks = 1 + intval($daysInMonths / 7);
+        }
+        $monthEndingDay= date('N',strtotime($year.'-'.$month.'-'.$daysInMonths));  //'N' zwraca dzien tygodnia 
+        $monthStartDay = date('N',strtotime($year.'-'.$month.'-01'));
+         
+        if($monthEndingDay<$monthStartDay){ 
+            $numOfweeks++;
+        }
+         
+        return $numOfweeks;
+    }
+ 
+    private function daysInMonth($month=null,$year=null){
+        if(null==($year)){
+            $year =  date("Y",time()); 
+        }
+        if(null==($month)){
+            $month = date("m",time());
+        } 
+        return date('t',strtotime($year.'-'.$month.'-01')); //'t' zwraca liczbe dni w miesiącu
+    }
+     
+}
