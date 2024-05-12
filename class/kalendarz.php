@@ -55,39 +55,53 @@ class Calendar {
      
    
     private function showDay($cellNumber){
-        if($this->currentDay==0){
-            $firstDayOfTheWeek = date('N',strtotime($this->currentYear.'-'.$this->currentMonth.'-01'));      
-            if(intval($cellNumber) == intval($firstDayOfTheWeek)){
-                $this->currentDay=1;
-            }
-        }
-         
-        if( ($this->currentDay!=0)&&($this->currentDay<=$this->daysInMonth) ){
-            $this->currentDate = date('Y-m-d',strtotime($this->currentYear.'-'.$this->currentMonth.'-'.($this->currentDay)));
-            $cellContent = $this->currentDay;
-            $this->currentDay++;   
-        }else{
-            $this->currentDate =null;
-            $cellContent=null;
+        $firstDayOfTheWeek = date('N', strtotime($this->currentYear.'-'.$this->currentMonth.'-01'));      
+        $lastDayOfTheMonth = date('t', strtotime('last day of '.$this->currentYear.'-'.$this->currentMonth));
+
+        if ($cellNumber % 7 == 0) {
+            $currentDayInWeek = 7;
+        } else {
+            $currentDayInWeek = $cellNumber % 7;
         }
 
-
+        $currentDayInMonth = $cellNumber - $firstDayOfTheWeek + 1;
         $classes = '';
-        if ($cellNumber % 7 == 1) {
-            $classes .= 'start ';
-        } elseif ($cellNumber % 7 == 0) {
-            $classes .= 'end ';
-        }else if($cellContent == null){
-            $classes .= 'mask';
-        }else{
-            $classes .= 'date';
+        if ($currentDayInMonth < 1) {
+            // Jeśli numer dnia miesiąca jest mniejszy niż 1, oznacza to, że jesteśmy w poprzednim miesiącu
+            if ($this->currentMonth == 1) {
+                $currentMonth = 12;
+                $currentYear = $this->currentYear - 1;
+            } else {
+                $currentMonth = $this->currentMonth - 1;
+                $currentYear = $this->currentYear;
+            }
+            $lastDayOfTheMonth = date('t', strtotime('last day of '.$currentYear.'-'.$currentMonth));
+            $currentDayInMonth = $lastDayOfTheMonth - $firstDayOfTheWeek + $currentDayInWeek +1;
+            $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
+            $classes .= 'otherDate ';
+        } elseif ($currentDayInMonth > $lastDayOfTheMonth) {
+            // Jeśli numer dnia miesiąca przekracza liczbę dni w miesiącu, jesteśmy w następnym miesiącu
+            if ($this->currentMonth == 12) {
+                $currentMonth = 1;
+                $currentYear = $this->currentYear + 1;
+            } else {
+                $currentMonth = $this->currentMonth + 1;
+                $currentYear = $this->currentYear;
+            }            
+            $currentDayInMonth -= $lastDayOfTheMonth;
+            $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
+            $classes .= 'otherDate ';
+        } else {
+            // Jesteśmy w bieżącym miesiącu
+            $currentMonth = $this->currentMonth;
+            $currentYear = $this->currentYear;
+            $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
+            $classes .= 'Date ';
         }
-
+        $cellContent = $currentDayInMonth;
         $liElement = '<li id="li-' . $this->currentDate . '" class="' . $classes . '">' . $cellContent . '</li>';
-
-        return $liElement;
-        
-        
+    
+        return $liElement;   
     }
      
 
