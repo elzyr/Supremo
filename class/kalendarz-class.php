@@ -159,7 +159,7 @@ class Calendar {
         
         $daysInMonths = $this->daysInMonth($month,$year);
         if ($daysInMonths % 7 == 0) {
-            $numOfweeks = 0;
+            $numOfweeks =$daysInMonths / 7 ;
         } else {
             $numOfweeks = 1 + intval($daysInMonths / 7);
         }

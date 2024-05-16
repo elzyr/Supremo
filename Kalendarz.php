@@ -5,7 +5,7 @@
 </head>
 <body>
 <?php
-include 'class/kalendarz.php';
+include 'class/kalendarz-class.php';
  
 $calendar = new Calendar();
  
