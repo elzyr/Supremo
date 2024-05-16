@@ -17,6 +17,7 @@
             <li <?php if(basename($_SERVER['PHP_SELF']) == 'Eventy.php') echo 'class="active"'; ?>><a href="Eventy.php"><i class="fas fa-calendar-alt"></i> Eventy</a></li>
             <li <?php if(basename($_SERVER['PHP_SELF']) == 'Kalendarz.php') echo 'class="active"'; ?>><a href="Kalendarz.php"><i class="fas fa-calendar"></i> Kalendarz</a></li>
             <li <?php if(basename($_SERVER['PHP_SELF']) == 'Plan_tygodnia.php') echo 'class="active"'; ?>><a href="Plan_tygodnia.php"><i class="fas fa-tasks"></i> Plan tygodnia</a></li>
+            <li <?php if(basename($_SERVER['PHP_SELF']) == 'Karta_ocen.php') echo 'class="active"'; ?>><a href="Karta_ocen.php"><i class="fas fa-clipboard-list"></i> Karta ocen</a></li>
         </ul>
     </div>
     <div class="right-nav">
