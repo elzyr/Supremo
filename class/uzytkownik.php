@@ -101,8 +101,15 @@ class Uzytkownik
         return $this->name;
     }
 
-    public function getId(): int
+    public function getUserIdByEmail($email): int
     {
-        return $this->id;
+        require("./php/dbConnect.php");
+        $sql = 'SELECT idUzytkownika FROM uzytkownicy WHERE email = ?';
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $stmt->bind_result($idUzytkownika);
+        $stmt->fetch();
+        return $idUzytkownika;
     }
 }
