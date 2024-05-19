@@ -23,6 +23,17 @@ $days = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', '
     <title>Plan tygodnia</title>
 </head>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.empty-slot').forEach(slot => {
+            slot.addEventListener('dblclick', function() {
+                const date = this.getAttribute('data-date');
+                window.location.href = `dodaj-zadanie.php?date=${date}`;
+            });
+        });
+    });
+</script>
+
 <body>
     <div class="container">
         <?php

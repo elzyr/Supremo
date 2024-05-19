@@ -26,14 +26,15 @@ class PlanTygodnia
         return ($duration / $totalSlots) * 100;
     }
 
-    public function generateEmptySlots($startTimeIndex, $endTimeIndex)
+    public function generateEmptySlots($startTimeIndex, $endTimeIndex, $date)
     {
         if ($startTimeIndex >= $endTimeIndex) {
             return '';
         }
         $width = $this->calculateWidth($startTimeIndex, $endTimeIndex);
-        return "<div class='empty-slot' style='flex: 0 0 {$width}%'></div>";
+        return "<div class='empty-slot' data-date='$date' style='flex: 0 0 {$width}%'></div>";
     }
+
 
     public function getTasksForDay($day, $userId)
     {
@@ -67,7 +68,7 @@ class PlanTygodnia
                 $endIndex = $this->timeToHourIndex($task['dataZakonczenia']);
 
                 if ($lastEndTimeIndex < $startIndex) {
-                    echo $this->generateEmptySlots($lastEndTimeIndex, $startIndex);
+                    echo $this->generateEmptySlots($lastEndTimeIndex, $startIndex, $dayDate);
                 }
 
                 $width = $this->calculateWidth($startIndex, $endIndex);
@@ -76,9 +77,8 @@ class PlanTygodnia
                 $lastEndTimeIndex = $endIndex;
             }
 
-
             if ($lastEndTimeIndex < $endOfDayIndex) {
-                echo $this->generateEmptySlots($lastEndTimeIndex, $endOfDayIndex);
+                echo $this->generateEmptySlots($lastEndTimeIndex, $endOfDayIndex, $dayDate);
             }
 
             echo '</div></div>';

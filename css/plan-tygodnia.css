@@ -1,6 +1,10 @@
 body {
   font-family: Helvetica, "Times New Roman", Times, serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
 }
+
 .container {
   display: flex;
   flex-direction: column;
@@ -9,28 +13,36 @@ body {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .day-container {
   background-color: #fff;
   width: 100%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin: 10px;
+  margin: 10px 0;
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .day-header {
-  margin: 0 0 10px 0;
-  padding: 0;
+  margin: 0;
+  padding: 20px;
   color: #333;
   font-size: 20px;
   text-align: center;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
 }
 
 .task-container {
   display: flex;
   width: 100%;
-  height: 50px;
+  height: 80px;
+  background-color: #fff;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .task,
@@ -40,11 +52,7 @@ body {
   align-items: center;
   font-size: 14px;
   line-height: 20px;
-}
-
-.task {
-  background-color: #ddd;
-  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .empty-slot {
@@ -52,6 +60,7 @@ body {
   color: #ccc;
   opacity: 0;
 }
+
 .day-time {
   font-size: 14px;
   color: #666;
@@ -91,4 +100,62 @@ body {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+.day-header {
+  font-size: 24px;
+  color: #5e5e5e;
+  padding: 20px 0;
+  text-align: center;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.day-container:not(:last-child) {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.task {
+  color: white;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #7b1fa2;
+  color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 0 10px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .day-header {
+    font-size: 18px;
+    padding: 15px 0;
+  }
+
+  .task-container {
+    height: 60px;
+  }
+
+  .task,
+  .empty-slot {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .day-header {
+    font-size: 16px;
+    padding: 10px 0;
+  }
+
+  .task-container {
+    height: 50px;
+  }
+
+  .task,
+  .empty-slot {
+    font-size: 10px;
+  }
 }
