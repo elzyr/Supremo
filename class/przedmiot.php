@@ -79,4 +79,13 @@ class Przedmiot
         $stmt->execute(['idUzytkownika' => $idUzytkownika, 'idPrzedmiotu' => $idPrzedmiotu]);
         return $stmt->fetchAll();
     }
+
+    // Show subjects that a user is enrolled in 
+    public function getSubjectsByUser($idUzytkownika)
+    {
+        $sql = 'SELECT * FROM przedmiot WHERE idUzytkownika = :idUzytkownika';
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['idUzytkownika' => $idUzytkownika]);
+        return $stmt->fetchAll();
+    }
 }
