@@ -75,10 +75,15 @@ class Uzytkownik
     public static function loadFromSession(): ?Uzytkownik
     {
         if (isset($_SESSION['uzytkownik'])) {
-            return unserialize($_SESSION['uzytkownik']);
+            $user = unserialize($_SESSION['uzytkownik']);
+            if ($user instanceof Uzytkownik) {
+                return $user;
+            }
         }
         return null;
     }
+
+
 
     public function changePassword(string $newPassword): void
     {
