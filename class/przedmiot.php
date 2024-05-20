@@ -97,9 +97,10 @@ class Przedmiot
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
+    // Get grades from an activity
     public function getGradesFromActivity($idUzytkownika, $idPrzedmiotu)
     {
-        $sql = 'SELECT a.nazwa AS aktywnoscNazwa, o.ocena
+        $sql = 'SELECT a.nazwa AS nazwa, o.ocena
                 FROM oceny o
                 JOIN aktywnosci a ON o.idAktywnosci = a.idAktywnosci
                 WHERE o.idUzytkownika = ? AND o.idPrzedmiotu = ?';
@@ -108,6 +109,16 @@ class Przedmiot
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getTitle($idPrzedmiotu)
+    {
+        $sql = 'SELECT nazwa FROM przedmiot WHERE idPrzedmiotu = ?';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param('i', $idPrzedmiotu);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc()['nazwa'];
     }
 }
 ?>
