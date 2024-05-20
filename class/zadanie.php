@@ -1,8 +1,8 @@
 <?php
-session_start();
 include("./php/validateInput.php");
 
-class Zadanie  // nwm jak to przetestowac ale cos napisalem
+class Zadanie
+
 {
     private string $tytul;
     private string $opis;
