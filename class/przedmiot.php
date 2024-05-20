@@ -96,5 +96,18 @@ class Przedmiot
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function getGradesFromActivity($idUzytkownika, $idPrzedmiotu)
+    {
+        $sql = 'SELECT a.nazwa AS aktywnoscNazwa, o.ocena
+                FROM oceny o
+                JOIN aktywnosci a ON o.idAktywnosci = a.idAktywnosci
+                WHERE o.idUzytkownika = ? AND o.idPrzedmiotu = ?';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param('ii', $idUzytkownika, $idPrzedmiotu);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }
 ?>
