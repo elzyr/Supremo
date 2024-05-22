@@ -16,12 +16,12 @@ class Calendar {
     public function show() {
         $year  = null;
         $month = null;   
-        if(null==$year&&isset($_GET['year'])){
+        if(isset($_GET['year'])){
             $year = $_GET['year'];
         }else if(null==$year){
             $year = date("Y",time());  
         }          
-        if(null==$month&&isset($_GET['month'])){
+        if(isset($_GET['month'])){
             $month = $_GET['month'];
         }else if(null==$month){
             $month = date("m",time());
@@ -29,21 +29,21 @@ class Calendar {
          
         $this->currentYear=$year;
         $this->currentMonth=$month;
-        $this->daysInMonth=$this->daysInMonth($month,$year);  
+        $this->daysInMonth=$this->getNumberDayInMonth($month,$year);  
          
         $content='<div id="calendar">'.
                         '<div class="box">'.
-                        $this->createNavi().
+                        $this->createHeader().
                         '</div>'.
                         '<div class="box-content">'.
-                                '<ul class="label">'.$this->createLabels().'</ul>';   
+                                '<ul class="label">'.$this->createDaysOfWeek().'</ul>';   
                                 $content.='<div class="clear"></div>';     
                                 $content.='<ul class="dates">';    
                                  
-                                $weeksInMonth = $this->weeksInMonth($month,$year);
+                                $weeksInMonth = $this->getNumberWeeksInMonth($month,$year);
                                 for( $i=0; $i<$weeksInMonth; $i++ ){
                                     for($j=1;$j<=7;$j++){
-                                        $content.=$this->showDay($i*7+$j);
+                                        $content.=$this->getDay($i*7+$j);
                                     }
                                 }
                                 $content.='</ul>'; 
@@ -54,8 +54,8 @@ class Calendar {
     }
      
    
-    private function showDay($cellNumber){
-        $firstDayOfTheWeek = date('N', strtotime($this->currentYear.'-'.$this->currentMonth.'-01'));      
+    private function getDay($cellNumber) {
+        $firstDayOfTheWeek = date('N', strtotime($this->currentYear.'-'.$this->currentMonth.'-01'));
         $lastDayOfTheMonth = date('t', strtotime('last day of '.$this->currentYear.'-'.$this->currentMonth));
 
         if ($cellNumber % 7 == 0) {
@@ -67,7 +67,6 @@ class Calendar {
         $currentDayInMonth = $cellNumber - $firstDayOfTheWeek + 1;
         $classes = '';
         if ($currentDayInMonth < 1) {
-            // Jeśli numer dnia miesiąca jest mniejszy niż 1, oznacza to, że jesteśmy w poprzednim miesiącu
             if ($this->currentMonth == 1) {
                 $currentMonth = 12;
                 $currentYear = $this->currentYear - 1;
@@ -76,36 +75,35 @@ class Calendar {
                 $currentYear = $this->currentYear;
             }
             $lastDayOfTheMonth = date('t', strtotime('last day of '.$currentYear.'-'.$currentMonth));
-            $currentDayInMonth = $lastDayOfTheMonth - $firstDayOfTheWeek + $currentDayInWeek +1;
+            $currentDayInMonth = $lastDayOfTheMonth - $firstDayOfTheWeek + $currentDayInWeek + 1;
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
             $classes .= 'otherDate ';
         } elseif ($currentDayInMonth > $lastDayOfTheMonth) {
-            // Jeśli numer dnia miesiąca przekracza liczbę dni w miesiącu, jesteśmy w następnym miesiącu
             if ($this->currentMonth == 12) {
                 $currentMonth = 1;
                 $currentYear = $this->currentYear + 1;
             } else {
                 $currentMonth = $this->currentMonth + 1;
                 $currentYear = $this->currentYear;
-            }            
+            }
             $currentDayInMonth -= $lastDayOfTheMonth;
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
             $classes .= 'otherDate ';
         } else {
-            // Jesteśmy w bieżącym miesiącu
             $currentMonth = $this->currentMonth;
             $currentYear = $this->currentYear;
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
             $classes .= 'Date ';
         }
         $cellContent = $currentDayInMonth;
-        $liElement = '<li id="li-' . $this->currentDate . '" class="' . $classes . '">' . $cellContent . '</li>';
-    
-        return $liElement;   
+        $liElement = '<a class="' . $classes . '" href="plan-tygodnia.php?date=' . $this->currentDate . '">' . $cellContent . '</a>';
+
+
+        return $liElement;
     }
      
 
-    private function createNavi(){
+    private function createHeader(){
         if ($this->currentMonth == 12) {
             $nextMonth = 1;
             $nextYear = intval($this->currentYear) + 1;
@@ -131,7 +129,7 @@ class Calendar {
             '</div>';
     }
 
-    private function createLabels(){  
+    private function createDaysOfWeek(){  
                  
         $content='';
          
@@ -149,7 +147,7 @@ class Calendar {
         return $content;
     }
 
-    private function weeksInMonth($month=null,$year=null){ 
+    private function getNumberWeeksInMonth($month=null,$year=null){ 
         if( null==($year) ) {
             $year =  date("Y",time()); 
         }
@@ -157,7 +155,7 @@ class Calendar {
             $month = date("m",time());
         } 
         
-        $daysInMonths = $this->daysInMonth($month,$year);
+        $daysInMonths = $this->getNumberDayInMonth($month,$year);
         if ($daysInMonths % 7 == 0) {
             $numOfweeks =$daysInMonths / 7 ;
         } else {
@@ -173,7 +171,7 @@ class Calendar {
         return $numOfweeks;
     }
  
-    private function daysInMonth($month=null,$year=null){
+    private function getNumberDayInMonth($month=null,$year=null){
         if(null==($year)){
             $year =  date("Y",time()); 
         }

@@ -2,6 +2,7 @@
 <html>
 <head>   
 <link href="css/kalendarz.css" type="text/css" rel="stylesheet" />
+<title>Kalendarz</title>
 </head>
 <body>
 <?php
