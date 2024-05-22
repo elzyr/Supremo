@@ -1,10 +1,6 @@
 <?php
 class Calendar {  
-
-    public function __construct(){     
-        $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
-    }
- 
+    private $conn;
     private $dayLabels = array("Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela");
     private $currentYear=0;
     private $currentMonth=0;
@@ -12,8 +8,13 @@ class Calendar {
     private $currentDate=null;
     private $daysInMonth=0;
     private $naviHref= null;
-  
-    public function show() {
+
+    public function __construct(mysqli $conn){     
+        $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
+        $this->conn = $conn;
+    }
+
+    public function show($user) {
         $year  = null;
         $month = null;   
         if(isset($_GET['year'])){
@@ -43,7 +44,7 @@ class Calendar {
                                 $weeksInMonth = $this->getNumberWeeksInMonth($month,$year);
                                 for( $i=0; $i<$weeksInMonth; $i++ ){
                                     for($j=1;$j<=7;$j++){
-                                        $content.=$this->getDay($i*7+$j);
+                                        $content.=$this->getDay($i*7+$j, $user->getId());
                                     }
                                 }
                                 $content.='</ul>'; 
@@ -52,18 +53,29 @@ class Calendar {
         $content.='</div>';
         return $content;   
     }
-     
+    private function getTaskInDay($day, $userId){
+        $day = $this->conn->real_escape_string($day);
+        $userId = $this->conn->real_escape_string($userId);
+
+        $query = "SELECT DISTINCT z.* FROM zadania z
+                  INNER JOIN zadaniauzytkownikow zu ON zu.idZadania = z.idZadania
+                  WHERE DATE(z.dataRozpoczecia) = '$day'
+                  AND zu.idUzytkownika = '$userId'
+                  ORDER BY z.dataRozpoczecia ASC";
+        $result = $this->conn->query($query);
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
    
-    private function getDay($cellNumber) {
+    private function getDay($cellNumber, $userId) {
         $firstDayOfTheWeek = date('N', strtotime($this->currentYear.'-'.$this->currentMonth.'-01'));
         $lastDayOfTheMonth = date('t', strtotime('last day of '.$this->currentYear.'-'.$this->currentMonth));
-
+    
         if ($cellNumber % 7 == 0) {
             $currentDayInWeek = 7;
         } else {
             $currentDayInWeek = $cellNumber % 7;
         }
-
+    
         $currentDayInMonth = $cellNumber - $firstDayOfTheWeek + 1;
         $classes = '';
         if ($currentDayInMonth < 1) {
@@ -95,12 +107,22 @@ class Calendar {
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
             $classes .= 'Date ';
         }
-        $cellContent = $currentDayInMonth;
+    
+        // Get tasks for the current day
+        $tasks = $this->getTaskInDay($this->currentDate, $userId);
+    
+        // Generate task circles
+        $taskCircles = '';
+        foreach ($tasks as $task) {
+            $taskCircles .= '<div class="task-circle"></div>';
+        }
+    
+        $cellContent = $currentDayInMonth . $taskCircles;
         $liElement = '<a class="' . $classes . '" href="plan-tygodnia.php?date=' . $this->currentDate . '">' . $cellContent . '</a>';
-
-
+    
         return $liElement;
     }
+    
      
 
     private function createHeader(){

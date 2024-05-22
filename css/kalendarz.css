@@ -71,21 +71,20 @@ body {
     flex-wrap: wrap;
     padding: 10px 0;
     justify-content: space-around;
-    
-
 }
 
 .dates a {
-    text-decoration: none; /* Wyłącza podkreślenie */
+    text-decoration: none; 
     flex: 0 0 calc(14.28% - 20px);
     height: 70px;
     padding: 10px;
     text-align: right;
-    text-align: top;
+    align-self: flex-start; /* Wyśrodkowanie tekstu w prawym górnym rogu */
     position: relative;
     margin: 5px;
     border-radius: 7px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
 }
 
 .Date{
@@ -95,6 +94,15 @@ body {
 .otherDate {
     background-color: #cfcaca; 
     color: #6b6565; 
+}
+.task-circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 2px;
+    background-color: red; 
+    border-radius: 50%;
+    align-self: flex-end;
 }
 .mask {
     color: #ccc;

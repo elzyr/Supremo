@@ -7,10 +7,12 @@
 <body>
 <?php
 include 'class/kalendarz-class.php';
+require("php/verifyUser.php");
+require('php/dbConnect.php');
  
-$calendar = new Calendar();
+$calendar = new Calendar($conn);
  
-echo $calendar->show();
+echo $calendar->show($user);
 ?>
 </body>
 </html>
