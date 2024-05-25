@@ -50,39 +50,6 @@ $grades = $przedmiot->getGradesFromActivity($idUzytkownika, $idPrzedmiotu);
             font-family: 'Inter', sans-serif;
         }
 
-        .header {
-            background-color: #3180C9;
-            font-weight: 400;
-            font-size: 34px;
-        }
-
-        .left-nav {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 400;
-            line-height: 27px;
-        }
-
-        .right-nav {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 400;
-        }
-
-        .logout-btn .fas {
-            margin-right: 15px;
-        }
-
-        .navbar {
-            background-color: #fff;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .navbar-brand {
-            color: #000;
-            margin-left: 30px;
-            font-weight: 600;
-            font-size: 26px;
-        }
-
         .title {
             margin: 25px 0 0 250px;
             font-family: 'Poppins', sans-serif;
@@ -126,37 +93,59 @@ $grades = $przedmiot->getGradesFromActivity($idUzytkownika, $idPrzedmiotu);
             color: #000;
             font-size: 30px;
         }
+
+        .go-back-button {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #7372E6;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 71px;
+            font-weight: 400;
+            width: 10%;
+            margin-top: 15px;
+            box-shadow: 0 3px 4px #BBB;
+        }
+
+        .go-back-button:hover {
+            background-color: #3180C9;
+        }
     </style>
 </head>
 
 <body>
-    <h1 class="title"><?php echo htmlspecialchars($przedmiot->getTitle($idPrzedmiotu)); ?></h1>
-    <?php
-    if ($idUzytkownika) {
-        // Create an instance of the Przedmiot class
-        $przedmiot = new Przedmiot($conn);
+    <main>
+        <h1 class="title"><?php echo htmlspecialchars($przedmiot->getTitle($idPrzedmiotu)); ?></h1>
+        <?php
+        if ($idUzytkownika) {
+            // Create an instance of the Przedmiot class
+            $przedmiot = new Przedmiot($conn);
 
-        // Fetch subjects assigned to the user
-        $subjects = $przedmiot->getSubjectsByUser($idUzytkownika);
+            // Fetch subjects assigned to the user
+            $subjects = $przedmiot->getSubjectsByUser($idUzytkownika);
 
-        // Generate HTML divs
-        $html = '';
-        $html .= '<div class="activities">';
+            // Generate HTML divs
+            $html = '';
+            $html .= '<div class="activities">';
 
-        foreach ($grades as $grade) {
-            $html .= '<div class="activity">';
-            $html .= '<h2>' . htmlspecialchars($grade['nazwa']) . '</h2>';
-            $html .= '<p>' . htmlspecialchars($grade['ocena']) . '</p>';
+            foreach ($grades as $grade) {
+                $html .= '<div class="activity">';
+                $html .= '<h2>' . htmlspecialchars($grade['nazwa']) . '</h2>';
+                $html .= '<p>' . htmlspecialchars($grade['ocena']) . '</p>';
+                $html .= '</div>';
+            }
+            $html .= '<a class="go-back-button" onclick="window.history.back()"><- Wstecz</a>';
+            // Output the generated HTML
             $html .= '</div>';
+            echo $html;
+        } else {
+            echo 'User not found';
         }
-
-        // Output the generated HTML
-        $html .= '</div>';
-        echo $html;
-    } else {
-        echo 'User not found';
-    }
-    ?>
+        ?>
+    </main>
 </body>
 
 </html>
