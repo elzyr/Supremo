@@ -1,5 +1,5 @@
 <?php
-class PlanTygodnia
+class WeekSchedule
 {
     private $conn;
 
