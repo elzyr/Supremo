@@ -1,5 +1,4 @@
 <?php
-session_start();
 include("./php/validateInput.php");
 class Uzytkownik
 {
