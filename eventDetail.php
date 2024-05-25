@@ -10,11 +10,11 @@ if (isset($_GET['id'])) {
     if ($result->num_rows > 0) {
         $event = $result->fetch_assoc();
     } else {
-        echo "Event not found.";
+        echo "Brak eventu.";
         exit;
     }
 } else {
-    echo "No event ID specified.";
+    echo "Brak Id eventu.";
     exit;
 }
 ?>
@@ -25,35 +25,7 @@ if (isset($_GET['id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($event['tytul']); ?></title>
-    <style>
-        body {
-            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-            color: black;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        .content {
-            margin-left: 210px; 
-            padding: 20px;
-        }
-        .content .image img {
-            width: 100%;
-            height: 400px; 
-            object-fit: cover;  
-            border-radius: 10px;
-        }
-        .content h1 {
-            margin-left: 40px; 
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
-        .content p {
-            margin-left: 40px; 
-            font-size: 1em;
-            margin-bottom: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/eventDetail.css">
 </head>
 <body>
     <div class="content">
