@@ -18,39 +18,6 @@
             font-family: 'Inter', sans-serif;
         }
 
-        .header {
-            background-color: #3180C9;
-            font-weight: 400;
-            font-size: 34px;
-        }
-
-        .left-nav {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 400;
-            line-height: 27px;
-        }
-
-        .right-nav {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 400;
-        }
-
-        .logout-btn .fas {
-            margin-right: 15px;
-        }
-
-        .navbar {
-            background-color: #fff;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .navbar-brand {
-            color: #000;
-            margin-left: 30px;
-            font-weight: 600;
-            font-size: 26px;
-        }
-
         .subjects {
             display: flex;
             flex-direction: column;
