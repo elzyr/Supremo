@@ -1,19 +1,19 @@
 <?php
-include("class/uzytkownik.php");
+include("class/User.php");
 $error_message = "";
-if (Uzytkownik::loadFromSession()) {
+if (User::loadFromSession()) {
     header('Location: dashboard.php');
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['username'];
     $password = $_POST['password'];
-    $user = new Uzytkownik($email, $password);
+    $user = new User($email, $password);
     if (!$user->login()) {
         $error_message = "Niepoprawne dane!";
     } else {
         //tutaj redirect
-        header('Location: dashboard.php');
+        header('Location: kalendarz.php');
     }
 }
 

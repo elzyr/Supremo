@@ -1,5 +1,5 @@
 <?php
-include("class/uzytkownik.php");
+include("class/User.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isCorrectName($_POST['name']) || !isCorrectName($_POST['last_name'])) {
@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $error_message = "Niepoprawny format e-maila";
     } else {
-        $user = new Uzytkownik($_POST['email'],  $_POST['password']);
+        $user = new User($_POST['email'],  $_POST['password']);
         if ($user->create($_POST['name'], $_POST['last_name'], $_POST['phone']) == true) {
             $error_message = 'Konto stworzone pomyślnie!';
             header('Location: login.php');
