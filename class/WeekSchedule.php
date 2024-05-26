@@ -32,8 +32,9 @@ class WeekSchedule
             return '';
         }
         $width = $this->calculateWidth($startTimeIndex, $endTimeIndex);
-        return "<div class='empty-slot' data-date='$date' style='flex: 0 0 {$width}%' title='dodaj zadanie'></div>";
+        return "<div class='empty-slot' data-date='$date' style='flex: 0 0 {$width}%' title='dodaj zadanie' onclick='window.location.href=\"dodaj-zadanie.php?taskDate=" . $date . "\"'></div>";
     }
+
 
     public function getTasksForDay($day, $userId)
     {
