@@ -1,9 +1,9 @@
 <?php
 require("php/verifyUser.php");
 require('php/dbConnect.php');
-include('class/PlanTygodnia.php');
+include('class/WeekSchedule.php');
 
-$taskScheduler = new PlanTygodnia($conn);
+$taskScheduler = new WeekSchedule($conn);
 
 $date = isset($_GET['date']) ? new DateTime($_GET['date']) : new DateTime();
 $date->setISODate($date->format('o'), $date->format('W'), 1);
@@ -23,18 +23,12 @@ $days = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', '
     <title>Plan tygodnia</title>
 </head>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.empty-slot').forEach(slot => {
-            slot.addEventListener('dblclick', function() {
-                const date = this.getAttribute('data-date');
-                window.location.href = `dodaj-zadanie.php?date=${date}`;
-            });
-        });
-    });
-</script>
-
 <body>
+    <?php if (isset($_COOKIE['success_message'])) : ?>
+        <div class="cookie-message"><?php echo htmlspecialchars($_COOKIE['success_message']); ?></div>
+        <?php setcookie("success_message", "", time() - 3600, "/");
+        ?>
+    <?php endif; ?>
     <div class="container">
         <?php
         $taskScheduler->displayDayTasks($date, $days, $user);
