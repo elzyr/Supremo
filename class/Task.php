@@ -42,18 +42,21 @@ class Task
         return $this->taskId;
     }
 
-    static function create(string $title, string $description, string $startDate, string $endDate): Task
+
+    static function create(string $title, string $description, string $startDate, string $endDate): ?Task
     {
         require("./php/dbConnect.php");
-        $sql = "INSERT INTO zadania (dataRozpoczecia, dataZakonczenia, tytul, opis) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $startDate, $endDate, $title, $description);
-        $stmt->execute();
-        $idZadania = $stmt->insert_id;
-        $stmt->close();
-        $conn->close();
-        return new Task($title, $description, $startDate, $endDate, $idZadania);
+        $sql = "INSERT INTO zadania (dataRozpoczecia, dataZakonczenia, tytul, opis) VALUES ('$startDate', '$endDate', '$title', '$description')";
+        if ($conn->query($sql) === TRUE) {
+            $taskId = $conn->insert_id;
+            $conn->close();
+            return new Task($title, $description, $startDate, $endDate, $taskId);
+        } else {
+            $conn->close();
+            return null;
+        }
     }
+
 
     public function update(string $title, string $description, string $startDate, string $endDate): bool
     {
@@ -72,14 +75,30 @@ class Task
         return false;
     }
 
-    public function delete(int $taskId): bool
+    public function delete(int $userId): bool
     {
         require("./php/dbConnect.php");
-        $sql = "DELETE FROM zadania WHERE idZadania=?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $taskId);
-        $stmt->execute();
-        $stmt->close();
+        $sql = "DELETE FROM zadaniaUzytkownikow WHERE idZadania=$this->taskId AND idUzytkownika=$userId";
+        if (!$conn->query($sql)) {
+            $conn->close();
+            return false;
+        }
+        $sql = "SELECT COUNT(*) as count FROM zadaniaUzytkownikow WHERE idZadania=$this->taskId";
+        $result = $conn->query($sql);
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $count = $row['count'];
+        } else {
+            $conn->close();
+            return false;
+        }
+        if ($count == 0) {
+            $sql = "DELETE FROM zadania WHERE idZadania=$this->taskId";
+            if (!$conn->query($sql)) {
+                $conn->close();
+                return false;
+            }
+        }
         $conn->close();
         return true;
     }
@@ -87,21 +106,30 @@ class Task
     static function load(int $taskId): ?Task
     {
         require("./php/dbConnect.php");
-        $sql = "SELECT * FROM zadania WHERE idZadania=?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $taskId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows == 1) {
+        $sql = "SELECT * FROM zadania WHERE idZadania=$taskId";
+        $result = $conn->query($sql);
+        if ($result && $result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            $stmt->close();
             $conn->close();
             return new Task($row["tytul"], $row["opis"], $row["dataRozpoczecia"], $row["dataZakonczenia"], $taskId);
         }
-        $stmt->close();
         $conn->close();
         return null;
     }
+
+    public function checkPermission(int $userId): bool
+    {
+        require("./php/dbConnect.php");
+        $sql = "SELECT * FROM zadaniaUzytkownikow WHERE idZadania=$this->taskId AND idUzytkownika=$userId";
+        $result = $conn->query($sql);
+        if ($result && $result->num_rows == 1) {
+            $conn->close();
+            return true;
+        }
+        $conn->close();
+        return false;
+    }
+
     static function checkAvailability(string $startDate, string $endDate, int $userId): bool
     {
         require("./php/dbConnect.php");
