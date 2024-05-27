@@ -20,7 +20,7 @@ $events = $conn->query($sql);
             <?php if ($events->num_rows > 0): ?>
                 <?php while($row = $events->fetch_assoc()): ?>
                     <div class="card">
-                        <a href="eventDetail.php?id=<?php echo $row['idZadania']; ?>">
+                        <a href="event-detail.php?id=<?php echo $row['idZadania']; ?>">
                             <div class="image">
                                 <?php 
                                 $title = htmlspecialchars($row['tytul']);
