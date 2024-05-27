@@ -18,7 +18,7 @@
    ```
 3. **Sklonuj repozytorium projektu do tego folderu.**
    ```bash
-   git clone https://github.com/TwojeRepo/supremo.git
+   git clone https://github.com/elzyr/Supremo.git
    ```
 4. **włącz aplikację xampp, następnie włącz moduł `Apache` oraz `MySQL`**
    
