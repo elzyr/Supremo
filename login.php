@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Niepoprawne dane!";
     } else {
         //tutaj redirect
-        header('Location: dashboard.php');
+        header('Location: kalendarz.php');
     }
 }
 
