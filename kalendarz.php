@@ -11,5 +11,6 @@ $calendar = new Calendar();
  
 echo $calendar->show();
 ?>
+<script src="toggle-navbar.js"></script>
 </body>
 </html>
