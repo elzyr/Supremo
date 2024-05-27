@@ -35,7 +35,7 @@
 </head>
 <body>
     <div class="navbar">
-        <div class="navbar-brand"><?php echo str_replace('_', ' ', basename($_SERVER['SCRIPT_FILENAME'], ".php")); ?></div>
+        <div class="navbar-brand"><?php echo str_replace('-', ' ', basename($_SERVER['SCRIPT_FILENAME'], ".php")); ?></div>
        
     </div>
 </body>
