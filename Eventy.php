@@ -34,7 +34,7 @@ $events = $conn->query($sql);
             flex-wrap: wrap;
             justify-content: left;
             gap: 20px;
-            margin-left: 200px; 
+            margin-left: 300px; 
         }
         .content main .card {
             max-width: 30%; 
@@ -110,5 +110,6 @@ $events = $conn->query($sql);
             <?php endif; ?>
         </main>
     </div>
+    <script src="./toggle-navbar.js"></script>
 </body>
 </html>
