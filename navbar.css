@@ -1,90 +1,113 @@
 body {
-    margin: 0;
+  margin: 0;
 }
 .header {
-    background-color: #3180C9;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-    margin: 0;
-    font-size: 32px;
+  background-color: #3180c9;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-weight: 400;
+  margin: 0;
+  font-size: 34px;
 }
 nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    background-color: #3180C9;
-    padding: 10px;
-    color: white;
-    width: 200px;
-    align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #3180c9;
+  padding: 10px;
+  color: white;
+  width: 200px;
+  align-items: center;
 }
 nav .left-nav {
-    margin-bottom: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start; /* Wyrównanie do lewej strony */
-    height: 50%;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; /* Wyrównanie do lewej strony */
+  height: 50%;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  line-height: 27px;
 }
 nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 nav ul li {
-    width: 100%; /* Ustawienie stałej szerokości */
-    text-align: center; /* Wyśrodkowanie tekstu */
-    margin-bottom: 20px;
+  width: 100%; /* Ustawienie stałej szerokości */
+  text-align: center; /* Wyśrodkowanie tekstu */
+  margin-bottom: 20px;
 }
 nav ul li:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 nav ul li a {
-    color: white;
-    text-decoration: none;
-    border: 2px solid transparent;
-    border-radius: 10px; /* Zaokrąglenie krawędzi */
-    padding: 8px 20px; /* Poprawienie odstępów */
-    width: 160px; /* Zmniejszenie szerokości */
-    display: flex; /* Wyśrodkowanie ikon w pionowej linii */
-    align-items: center; /* Wyśrodkowanie ikon w pionowej linii */
-    justify-content: flex-start; /* Wyrównanie do lewej strony */
-    box-sizing: border-box; /* Wliczanie paddingu w szerokość */
-    text-align: left; /* Wyrównanie tekstu do lewej strony */
+  color: white;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: 10px; /* Zaokrąglenie krawędzi */
+  padding: 8px 20px; /* Poprawienie odstępów */
+  width: 160px; /* Zmniejszenie szerokości */
+  display: flex; /* Wyśrodkowanie ikon w pionowej linii */
+  align-items: center; /* Wyśrodkowanie ikon w pionowej linii */
+  justify-content: flex-start; /* Wyrównanie do lewej strony */
+  box-sizing: border-box; /* Wliczanie paddingu w szerokość */
+  text-align: left; /* Wyrównanie tekstu do lewej strony */
 }
-
 
 nav ul li a i {
-    margin-right: 10px; /* Dodatkowy odstęp między ikoną a tekstem */
+  margin-right: 10px; /* Dodatkowy odstęp między ikoną a tekstem */
 }
 .logout-btn {
-    background-color: white;
-    border: 2px solid transparent;
-    border-radius: 10px; /* Zaokrąglenie krawędzi */
-    color: black;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    width: 160px; /* Zmniejszenie szerokości */
-    box-sizing: border-box; /* Wliczanie paddingu w szerokość */
+  background-color: white;
+  border: 2px solid transparent;
+  border-radius: 10px; /* Zaokrąglenie krawędzi */
+  color: black;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  width: 160px; /* Zmniejszenie szerokości */
+  box-sizing: border-box; /* Wliczanie paddingu w szerokość */
+}
+
+.logout-btn .fas {
+  margin-right: 15px;
 }
 
 .brand {
-    margin-bottom: auto;
+  margin-bottom: auto;
 }
 nav ul li.active a {
-    border-color: white;
-    background-color: white;
-    color: #3180C9;
+  border-color: white;
+  background-color: white;
+  color: #3180c9;
+}
+
+.right-nav {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
+
+.navbar {
+  background-color: #fff;
+  font-family: "Poppins", sans-serif;
+}
+
+.navbar-brand {
+  color: #000;
+  margin-left: 30px;
+  font-weight: 600;
+  font-size: 26px;
 }
