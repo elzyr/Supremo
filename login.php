@@ -12,7 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$user->login()) {
         $error_message = "Niepoprawne dane!";
     } else {
-        //tutaj redirect
         header('Location: kalendarz.php');
     }
 }

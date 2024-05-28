@@ -5,10 +5,9 @@ require("class/Task.php");
 require("php/dbConnect.php");
 
 if (!isset($_GET['id'])) {
-    echo "No task ID provided.";
+    echo "Nie znaleziono tego zadania";
     exit();
 }
-
 $task = Task::load($_GET['id']);
 if ($task == null) {
     echo "Nie znaleziono zadania";

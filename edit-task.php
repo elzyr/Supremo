@@ -2,7 +2,7 @@
 require("php/verifyUser.php");
 require("class/Task.php");
 if (!isset($_GET['id'])) {
-    echo "No task ID provided.";
+    echo "Nie znaleziono tego zadania";
     exit();
 }
 
