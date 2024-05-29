@@ -145,7 +145,6 @@ a {
 }
 
 .cookie-message {
-  background-color: green;
   color: white;
   text-align: center;
   padding: 10px;
@@ -156,6 +155,12 @@ a {
   z-index: 1000;
   opacity: 1;
   animation: fadeOut 1s ease-out 2s forwards;
+}
+.success {
+  background-color: green;
+}
+.error {
+  background-color: red;
 }
 
 @keyframes fadeOut {

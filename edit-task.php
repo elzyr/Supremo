@@ -2,8 +2,10 @@
 require("php/verifyUser.php");
 require("class/Task.php");
 if (!isset($_GET['id'])) {
-    echo "Nie znaleziono tego zadania";
-    exit();
+    setcookie("error_message", "Nie znaleziono zadania!", time() + 5, "/");
+    echo '<script type="text/javascript">
+       window.history.back();
+      </script>';
 }
 
 $task = Task::load($_GET['id']);

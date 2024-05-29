@@ -2,12 +2,14 @@
 require("php/verifyUser.php");
 require('php/dbConnect.php');
 include("class/Task.php");
-$taskDate = '';
 
-if (isset($_GET['taskDate'])) {
-    $taskDate = $conn->real_escape_string($_GET['taskDate']);
+if (!isset($_GET['taskDate'])) {
+    setcookie("error_message", "Nie podano daty!", time() + 5, "/");
+    echo '<script type="text/javascript">
+       window.history.back();
+      </script>';
 }
-
+$taskDate = $conn->real_escape_string($_GET['taskDate']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $date = $conn->real_escape_string($_POST['date']);
