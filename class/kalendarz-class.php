@@ -30,28 +30,20 @@ class Calendar {
         $this->daysInMonth=$this->getNumberDayInMonth($month,$year);  
     }
 
-    public function show($user) {
-        $content='<div id="calendar">'.
-                        '<div class="box-calendar">'.
-                        $this->createHeader().
-                        '</div>'.
-                        '<div class="box-content">'.
-                                '<ul class="label">'.$this->createDaysOfWeek().'</ul>';   
-                                $content.='<div class="clear"></div>';     
-                                $content.='<ul class="dates">';    
-                                 
-                                $weeksInMonth = $this->getNumberWeeksInMonth($this->currentMonth,$this->currentYear);
-                                for( $i=0; $i<$weeksInMonth; $i++ ){
-                                    for($j=1;$j<=7;$j++){
-                                        $content.=$this->getDay($i*7+$j, $user->getId());
-                                    }
-                                }
-                                $content.='</ul>'; 
-                                $content.='<div class="clear"></div>';     
-                        $content.='</div>';
-        $content.='</div>';
+    public function showDayInCalendar($user) {
+        $content='<ul class="dates">';    
+            $weeksInMonth = $this->getNumberWeeksInMonth($this->currentMonth,$this->currentYear);
+            for( $i=0; $i<$weeksInMonth; $i++ ){
+                for($j=1;$j<=7;$j++){
+                    $content.=$this->getDay($i*7+$j, $user->getId());
+                }
+            }
+        $content.='</ul>'; 
+        $content.='<div class="clear"></div>';     
+
         return $content;   
     }
+
     private function getTaskInDay($day, $userId){
         $day = $this->conn->real_escape_string($day);
         $userId = $this->conn->real_escape_string($userId);
@@ -88,7 +80,7 @@ class Calendar {
             $lastDayOfTheMonth = date('t', strtotime('last day of '.$currentYear.'-'.$currentMonth));
             $currentDayInMonth = $lastDayOfTheMonth - $firstDayOfTheWeek + $currentDayInWeek + 1;
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
-            $classes .= 'otherDate ';
+            $classes .= 'otherMonth ';
         } elseif ($currentDayInMonth > $lastDayOfTheMonth) {
             if ($this->currentMonth == 12) {
                 $currentMonth = 1;
@@ -99,32 +91,31 @@ class Calendar {
             }
             $currentDayInMonth -= $lastDayOfTheMonth;
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
-            $classes .= 'otherDate ';
+            $classes .= 'otherMonth ';
         } else {
             $currentMonth = $this->currentMonth;
             $currentYear = $this->currentYear;
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
-            $classes .= 'Date ';
+            $classes .= 'inMonth ';
         }
     
 
         $tasks = $this->getTaskInDay($this->currentDate, $userId);
-    
  
         $TaskInDay = '';
         foreach ($tasks as $task) {
-            $TaskInDay .= '<div class="task-circle" title="'.$task['tytul'].'" data-description="'.$task['opis'].'"></div>';
+            $TaskInDay .= '<div class="taskInDay" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'"></div>';
         }
     
         $cellContent = $TaskInDay . $currentDayInMonth;
-        $liElement = '<a class="' . $classes . '" href="plan-tygodnia.php?date=' . $this->currentDate . '">' . $cellContent . '</a>';
+        $content = '<a class="' . $classes . '" href="plan-tygodnia.php?date=' . $this->currentDate . '">' . $cellContent . '</a>';
     
-        return $liElement;
+        return $content;
     }
     
      
 
-    private function createHeader(){
+    public function createHeader(){
         if ($this->currentMonth == 12) {
             $nextMonth = 1;
             $nextYear = intval($this->currentYear) + 1;
@@ -141,26 +132,18 @@ class Calendar {
             $preYear = $this->currentYear;
         }
         
-         
         return
             '<div class="header">'.
                 '<a class="prev" href="kalendarz.php?month='.sprintf('%02d',$preMonth).'&year='.$preYear.'">Prev</a>'.
-                '<span class="title">'.date('Y M',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'</span>'.
+                '<span class="YearMonth">'.date('Y M',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'</span>'.
                 '<a class="next" href="kalendarz.php?month='.sprintf("%02d", $nextMonth).'&year='.$nextYear.'">Next</a>'.
             '</div>';
     }
 
-    private function createDaysOfWeek(){  
-
+    public function createDaysOfWeek(){  
         $content='';         
         foreach($this->dayLabels as $index=>$label){
-            $content .= '<li class="';
-            if ($label == 6) {
-                $content .= 'end title';
-            } else {
-                $content .= 'start title';
-            }
-            $content .= ' title">' . $label . '</li>';
+            $content .= '<li class="DayOfWeek">' . $label . '</li>';
  
         }
          

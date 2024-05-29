@@ -12,6 +12,7 @@ body {
 
 .box-calendar {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ccc;
@@ -43,7 +44,7 @@ body {
     border-radius: 5px;
 }
 
-.title {
+.DayOfWeek, .YearMonth{
     font-weight: bold;
     text-align: center;
     padding: 5px;
@@ -80,15 +81,15 @@ body {
     display: flex;
 }
 
-.Date{
+.inMonth{
     background-color: #ffffff;
     color: black;
 }
-.otherDate {
+.otherMonth {
     background-color: #cfcaca; 
     color: #6b6565; 
 }
-.task-circle {
+.taskInDay {
     display: inline-block;
     width: 15px;
     height: 15px;
@@ -99,8 +100,8 @@ body {
 
 }
 
-.task-circle::after {
-    content: attr(title) "\A" attr(data-description);
+.taskInDay::after {
+    content: attr(titleTask) "\A" attr(descriptionTask);
     display: none;
     position: absolute;
     top: 100%;
@@ -114,7 +115,7 @@ body {
     margin-top: 5px;
     z-index: 1;
 }
-.task-circle:hover::after {
+.taskInDay:hover::after {
     display: block;
 }
 .mask {
