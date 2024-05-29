@@ -12,9 +12,6 @@ class Calendar {
     public function __construct(mysqli $conn){     
         $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
         $this->conn = $conn;
-    }
-
-    public function show($user) {
         $year  = null;
         $month = null;   
         if(isset($_GET['year'])){
@@ -31,7 +28,9 @@ class Calendar {
         $this->currentYear=$year;
         $this->currentMonth=$month;
         $this->daysInMonth=$this->getNumberDayInMonth($month,$year);  
-         
+    }
+
+    public function show($user) {
         $content='<div id="calendar">'.
                         '<div class="box-calendar">'.
                         $this->createHeader().
@@ -41,7 +40,7 @@ class Calendar {
                                 $content.='<div class="clear"></div>';     
                                 $content.='<ul class="dates">';    
                                  
-                                $weeksInMonth = $this->getNumberWeeksInMonth($month,$year);
+                                $weeksInMonth = $this->getNumberWeeksInMonth($this->currentMonth,$this->currentYear);
                                 for( $i=0; $i<$weeksInMonth; $i++ ){
                                     for($j=1;$j<=7;$j++){
                                         $content.=$this->getDay($i*7+$j, $user->getId());
@@ -108,8 +107,10 @@ class Calendar {
             $classes .= 'Date ';
         }
     
+
         $tasks = $this->getTaskInDay($this->currentDate, $userId);
     
+ 
         $TaskInDay = '';
         foreach ($tasks as $task) {
             $TaskInDay .= '<div class="task-circle" title="'.$task['tytul'].'" data-description="'.$task['opis'].'"></div>';
@@ -143,14 +144,14 @@ class Calendar {
          
         return
             '<div class="header">'.
-                '<a class="prev" href="'.$this->naviHref.'?month='.sprintf('%02d',$preMonth).'&year='.$preYear.'">Prev</a>'.
-                    '<span class="title">'.date('Y M',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'</span>'.
-                '<a class="next" href="'.$this->naviHref.'?month='.sprintf("%02d", $nextMonth).'&year='.$nextYear.'">Next</a>'.
+                '<a class="prev" href="kalendarz.php?month='.sprintf('%02d',$preMonth).'&year='.$preYear.'">Prev</a>'.
+                '<span class="title">'.date('Y M',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'</span>'.
+                '<a class="next" href="kalendarz.php?month='.sprintf("%02d", $nextMonth).'&year='.$nextYear.'">Next</a>'.
             '</div>';
     }
 
     private function createDaysOfWeek(){  
-                 
+
         $content='';         
         foreach($this->dayLabels as $index=>$label){
             $content .= '<li class="';

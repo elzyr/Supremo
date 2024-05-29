@@ -10,13 +10,6 @@ body {
     background-color: #f0f0f0;
 }
 
-#calendar {
-    margin-left: 200px;
-    width: (100%-200px);
-    background-color: #fff;
-    border-radius: 8px;
-}
-
 .box-calendar {
     display: flex;
     justify-content: space-between;
