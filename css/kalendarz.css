@@ -17,7 +17,7 @@ body {
     border-radius: 8px;
 }
 
-.box {
+.box-calendar {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -97,12 +97,32 @@ body {
 }
 .task-circle {
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     margin: 2px;
     background-color: red; 
     border-radius: 50%;
-    align-self: flex-end;
+    position: relative;
+
+}
+
+.task-circle::after {
+    content: attr(title) "\A" attr(data-description);
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px;
+    background-color: #a69d9d;
+    color: #000000;
+    white-space: pre;
+    border-radius: 5px;
+    margin-top: 5px;
+    z-index: 1;
+}
+.task-circle:hover::after {
+    display: block;
 }
 .mask {
     color: #ccc;

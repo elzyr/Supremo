@@ -33,7 +33,7 @@ class Calendar {
         $this->daysInMonth=$this->getNumberDayInMonth($month,$year);  
          
         $content='<div id="calendar">'.
-                        '<div class="box">'.
+                        '<div class="box-calendar">'.
                         $this->createHeader().
                         '</div>'.
                         '<div class="box-content">'.
@@ -108,16 +108,14 @@ class Calendar {
             $classes .= 'Date ';
         }
     
-        // Get tasks for the current day
         $tasks = $this->getTaskInDay($this->currentDate, $userId);
     
-        // Generate task circles
-        $taskCircles = '';
+        $TaskInDay = '';
         foreach ($tasks as $task) {
-            $taskCircles .= '<div class="task-circle"></div>';
+            $TaskInDay .= '<div class="task-circle" title="'.$task['tytul'].'" data-description="'.$task['opis'].'"></div>';
         }
     
-        $cellContent = $currentDayInMonth . $taskCircles;
+        $cellContent = $TaskInDay . $currentDayInMonth;
         $liElement = '<a class="' . $classes . '" href="plan-tygodnia.php?date=' . $this->currentDate . '">' . $cellContent . '</a>';
     
         return $liElement;
@@ -153,8 +151,7 @@ class Calendar {
 
     private function createDaysOfWeek(){  
                  
-        $content='';
-         
+        $content='';         
         foreach($this->dayLabels as $index=>$label){
             $content .= '<li class="';
             if ($label == 6) {
