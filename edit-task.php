@@ -74,7 +74,7 @@ function validateDates($startDate, $endDate)
             <label for="tytul">Tytuł:</label>
             <input type="text" id="tytul" name="tytul" value="<?php echo htmlspecialchars($task->getTitle()); ?>" required>
             <label for="opis">Opis:</label>
-            <textarea id="opis" name="opis" required><?php echo htmlspecialchars($task->getDescription()); ?></textarea>
+            <textarea id="opis" name="opis"><?php echo htmlspecialchars($task->getDescription()); ?></textarea>
             <label for="dataRozpoczecia">Data rozpoczęcia:</label>
             <input type="datetime-local" id="dataRozpoczecia" name="dataRozpoczecia" value="<?php echo str_replace(' ', 'T', $task->getStartDate()); ?>" required>
             <label for="dataZakonczenia">Data zakończenia:</label>
@@ -86,7 +86,7 @@ function validateDates($startDate, $endDate)
         </form>
         <br>
         <?php
-        echo '<a href="zadanie.php?id=' . $task->getId() . '" class="button">Powrót do zadania</a>';
+        echo '<a href="zadanie.php?id=' . $task->getId() . '" class="back-button">Powrót do zadania</a>';
         ?>
     </div>
 </body>

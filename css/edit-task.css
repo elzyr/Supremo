@@ -89,3 +89,13 @@ a.button {
 a.button:hover {
   background-color: #5460d1;
 }
+.back-button {
+  display: block;
+  text-decoration: none;
+  color: #6670f0;
+  font-size: 0.9em;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}

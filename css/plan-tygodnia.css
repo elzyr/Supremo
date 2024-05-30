@@ -169,6 +169,10 @@ a {
   }
 }
 
+.task-title {
+  font-size: 100%;
+}
+
 @media (max-width: 768px) {
   .day-header {
     font-size: 18px;

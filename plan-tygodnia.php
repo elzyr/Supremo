@@ -33,12 +33,11 @@ $days = ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', '
         <div class="cookie-message error"><?php echo htmlspecialchars($_COOKIE['error_message']); ?></div>
         <?php setcookie("error_message", "", time() - 3600, "/"); ?>
     <?php endif; ?>
-    <div class="container">
-        <?php
-        $taskScheduler->displayDayTasks($date, $days, $user);
-        $conn->close();
-        ?>
-    </div>
+
+    <?php
+    $taskScheduler->displayDayTasks($date, $days, $user);
+    $conn->close();
+    ?>
 </body>
 
 </html>

@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php setcookie("update_message", "", time() - 3600, "/");
             ?>
         <?php endif; ?>
-        <a href="plan-tygodnia.php?date=<?php echo $task->getStartDate(); ?>" class="button">Powrót do planu tygodnia</a>
+        <a href="plan-tygodnia.php?date=<?php echo $task->getStartDate(); ?>" class="back-button">Powrót do planu tygodnia</a>
     </div>
 </body>
 
