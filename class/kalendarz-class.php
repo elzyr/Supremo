@@ -1,10 +1,6 @@
 <?php
 class Calendar {  
-
-    public function __construct(){     
-        $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
-    }
- 
+    private $conn;
     private $dayLabels = array("Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota","Niedziela");
     private $currentYear=0;
     private $currentMonth=0;
@@ -12,16 +8,18 @@ class Calendar {
     private $currentDate=null;
     private $daysInMonth=0;
     private $naviHref= null;
-  
-    public function show() {
+
+    public function __construct(mysqli $conn){     
+        $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
+        $this->conn = $conn;
         $year  = null;
         $month = null;   
-        if(null==$year&&isset($_GET['year'])){
+        if(isset($_GET['year'])){
             $year = $_GET['year'];
         }else if(null==$year){
             $year = date("Y",time());  
         }          
-        if(null==$month&&isset($_GET['month'])){
+        if(isset($_GET['month'])){
             $month = $_GET['month'];
         }else if(null==$month){
             $month = date("m",time());
@@ -29,45 +27,49 @@ class Calendar {
          
         $this->currentYear=$year;
         $this->currentMonth=$month;
-        $this->daysInMonth=$this->daysInMonth($month,$year);  
-         
-        $content='<div id="calendar">'.
-                        '<div class="box">'.
-                        $this->createNavi().
-                        '</div>'.
-                        '<div class="box-content">'.
-                                '<ul class="label">'.$this->createLabels().'</ul>';   
-                                $content.='<div class="clear"></div>';     
-                                $content.='<ul class="dates">';    
-                                 
-                                $weeksInMonth = $this->weeksInMonth($month,$year);
-                                for( $i=0; $i<$weeksInMonth; $i++ ){
-                                    for($j=1;$j<=7;$j++){
-                                        $content.=$this->showDay($i*7+$j);
-                                    }
-                                }
-                                $content.='</ul>'; 
-                                $content.='<div class="clear"></div>';     
-                        $content.='</div>';
-        $content.='</div>';
+        $this->daysInMonth=$this->getNumberDayInMonth($month,$year);  
+    }
+
+    public function showDayInCalendar($user) {
+        $content='<ul class="dates">';    
+            $weeksInMonth = $this->getNumberWeeksInMonth($this->currentMonth,$this->currentYear);
+            for( $i=0; $i<$weeksInMonth; $i++ ){
+                for($j=1;$j<=7;$j++){
+                    $content.=$this->getDay($i*7+$j, $user->getId());
+                }
+            }
+        $content.='</ul>'; 
+        $content.='<div class="clear"></div>';     
+
         return $content;   
     }
-     
-   
-    private function showDay($cellNumber){
-        $firstDayOfTheWeek = date('N', strtotime($this->currentYear.'-'.$this->currentMonth.'-01'));      
-        $lastDayOfTheMonth = date('t', strtotime('last day of '.$this->currentYear.'-'.$this->currentMonth));
 
+    private function getTaskInDay($day, $userId){
+        $day = $this->conn->real_escape_string($day);
+        $userId = $this->conn->real_escape_string($userId);
+
+        $query = "SELECT DISTINCT z.* FROM zadania z
+                  INNER JOIN zadaniauzytkownikow zu ON zu.idZadania = z.idZadania
+                  WHERE DATE(z.dataRozpoczecia) = '$day'
+                  AND zu.idUzytkownika = '$userId'
+                  ORDER BY z.dataRozpoczecia ASC";
+        $result = $this->conn->query($query);
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+   
+    private function getDay($cellNumber, $userId) {
+        $firstDayOfTheWeek = date('N', strtotime($this->currentYear.'-'.$this->currentMonth.'-01'));
+        $lastDayOfTheMonth = date('t', strtotime('last day of '.$this->currentYear.'-'.$this->currentMonth));
+    
         if ($cellNumber % 7 == 0) {
             $currentDayInWeek = 7;
         } else {
             $currentDayInWeek = $cellNumber % 7;
         }
-
+    
         $currentDayInMonth = $cellNumber - $firstDayOfTheWeek + 1;
         $classes = '';
         if ($currentDayInMonth < 1) {
-            // Jeśli numer dnia miesiąca jest mniejszy niż 1, oznacza to, że jesteśmy w poprzednim miesiącu
             if ($this->currentMonth == 1) {
                 $currentMonth = 12;
                 $currentYear = $this->currentYear - 1;
@@ -76,36 +78,44 @@ class Calendar {
                 $currentYear = $this->currentYear;
             }
             $lastDayOfTheMonth = date('t', strtotime('last day of '.$currentYear.'-'.$currentMonth));
-            $currentDayInMonth = $lastDayOfTheMonth - $firstDayOfTheWeek + $currentDayInWeek +1;
+            $currentDayInMonth = $lastDayOfTheMonth - $firstDayOfTheWeek + $currentDayInWeek + 1;
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
-            $classes .= 'otherDate ';
+            $classes .= 'otherMonth ';
         } elseif ($currentDayInMonth > $lastDayOfTheMonth) {
-            // Jeśli numer dnia miesiąca przekracza liczbę dni w miesiącu, jesteśmy w następnym miesiącu
             if ($this->currentMonth == 12) {
                 $currentMonth = 1;
                 $currentYear = $this->currentYear + 1;
             } else {
                 $currentMonth = $this->currentMonth + 1;
                 $currentYear = $this->currentYear;
-            }            
+            }
             $currentDayInMonth -= $lastDayOfTheMonth;
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
-            $classes .= 'otherDate ';
+            $classes .= 'otherMonth ';
         } else {
-            // Jesteśmy w bieżącym miesiącu
             $currentMonth = $this->currentMonth;
             $currentYear = $this->currentYear;
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
-            $classes .= 'Date ';
+            $classes .= 'inMonth ';
         }
-        $cellContent = $currentDayInMonth;
-        $liElement = '<li id="li-' . $this->currentDate . '" class="' . $classes . '">' . $cellContent . '</li>';
     
-        return $liElement;   
+
+        $tasks = $this->getTaskInDay($this->currentDate, $userId);
+ 
+        $TaskInDay = '';
+        foreach ($tasks as $task) {
+            $TaskInDay .= '<div class="taskInDay" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'"></div>';
+        }
+    
+        $cellContent = $TaskInDay . $currentDayInMonth;
+        $content = '<a class="' . $classes . '" href="plan-tygodnia.php?date=' . $this->currentDate . '">' . $cellContent . '</a>';
+    
+        return $content;
     }
+    
      
 
-    private function createNavi(){
+    public function createHeader(){
         if ($this->currentMonth == 12) {
             $nextMonth = 1;
             $nextYear = intval($this->currentYear) + 1;
@@ -122,34 +132,25 @@ class Calendar {
             $preYear = $this->currentYear;
         }
         
-         
         return
             '<div class="header">'.
-                '<a class="prev" href="'.$this->naviHref.'?month='.sprintf('%02d',$preMonth).'&year='.$preYear.'">Prev</a>'.
-                    '<span class="title">'.date('Y M',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'</span>'.
-                '<a class="next" href="'.$this->naviHref.'?month='.sprintf("%02d", $nextMonth).'&year='.$nextYear.'">Next</a>'.
+                '<a class="prev" href="kalendarz.php?month='.sprintf('%02d',$preMonth).'&year='.$preYear.'">Prev</a>'.
+                '<span class="YearMonth">'.date('Y M',strtotime($this->currentYear.'-'.$this->currentMonth.'-1')).'</span>'.
+                '<a class="next" href="kalendarz.php?month='.sprintf("%02d", $nextMonth).'&year='.$nextYear.'">Next</a>'.
             '</div>';
     }
 
-    private function createLabels(){  
-                 
-        $content='';
-         
+    public function createDaysOfWeek(){  
+        $content='';         
         foreach($this->dayLabels as $index=>$label){
-            $content .= '<li class="';
-            if ($label == 6) {
-                $content .= 'end title';
-            } else {
-                $content .= 'start title';
-            }
-            $content .= ' title">' . $label . '</li>';
+            $content .= '<li class="DayOfWeek">' . $label . '</li>';
  
         }
          
         return $content;
     }
 
-    private function weeksInMonth($month=null,$year=null){ 
+    private function getNumberWeeksInMonth($month=null,$year=null){ 
         if( null==($year) ) {
             $year =  date("Y",time()); 
         }
@@ -157,7 +158,7 @@ class Calendar {
             $month = date("m",time());
         } 
         
-        $daysInMonths = $this->daysInMonth($month,$year);
+        $daysInMonths = $this->getNumberDayInMonth($month,$year);
         if ($daysInMonths % 7 == 0) {
             $numOfweeks =$daysInMonths / 7 ;
         } else {
@@ -173,7 +174,7 @@ class Calendar {
         return $numOfweeks;
     }
  
-    private function daysInMonth($month=null,$year=null){
+    private function getNumberDayInMonth($month=null,$year=null){
         if(null==($year)){
             $year =  date("Y",time()); 
         }
