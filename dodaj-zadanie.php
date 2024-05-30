@@ -21,10 +21,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $startDateTime = "$date $startTime";
     $endDateTime = "$date $endTime";
 
+    $minHour = new DateTime('08:00');
+    $maxHour = new DateTime('20:00');
+    $startHour = new DateTime($startTime);
+    $endHour = new DateTime($endTime);
+
     if (empty(trim($title))) {
         $error = "Tytuł nie może być pusty.";
     } elseif (strtotime($endTime) <= strtotime($startTime)) {
         $error = "Czas zakończenia musi być późniejszy niż czas rozpoczęcia.";
+    } elseif ($startHour < $minHour || $startHour > $maxHour || $endHour < $minHour || $endHour > $maxHour) {
+        $error = "Czas zadania musi być w przedziale 8:00 - 20:00.";
     } else {
         if (!(Task::checkAvailability($startDateTime, $endDateTime, $userId))) {
             $error = "W podanym okresie istnieje już inne zadanie.";
@@ -37,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>

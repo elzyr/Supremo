@@ -159,3 +159,20 @@ class Task
         return true;
     }
 }
+function validateDates($startDate, $endDate)
+{
+    $start = new DateTime($startDate);
+    $end = new DateTime($endDate);
+    $startHour = $start->format('H:i');
+    $endHour = $end->format('H:i');
+    $minHour = new DateTime('08:00');
+    $maxHour = new DateTime('20:00');
+    if ($start > $end) {
+        return "Data rozpoczęcia nie może być późniejsza niż data zakończenia.";
+    } else if ($start->format('Y-m-d') !== $end->format('Y-m-d')) {
+        return "Data rozpoczęcia i zakończenia musi być tego samego dnia.";
+    } else if (new DateTime($startHour) < $minHour || new DateTime($startHour) > $maxHour || new DateTime($endHour) < $minHour || new DateTime($endHour) > $maxHour) {
+        return "Czas zadania musi być w przedziale 8:00 - 20:00";
+    }
+    return true;
+}
