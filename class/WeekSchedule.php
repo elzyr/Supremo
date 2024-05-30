@@ -41,7 +41,7 @@ class WeekSchedule
         $day = $this->conn->real_escape_string($day);
         $userId = $this->conn->real_escape_string($userId);
 
-        $query = "SELECT DISTINCT z.* FROM zadania z
+        $query = "SELECT DISTINCT * FROM zadania z
                   INNER JOIN zadaniauzytkownikow zu ON zu.idZadania = z.idZadania
                   WHERE DATE(z.dataRozpoczecia) = '$day'
                   AND zu.idUzytkownika = '$userId'
@@ -52,12 +52,14 @@ class WeekSchedule
 
     public function renderTask($task, $startTime, $endTime, $width)
     {
-        return "<a href='zadanie.php?id={$task['idZadania']}' class='task' style='flex: 0 0 {$width}%'>
-            <div class='task-time start-time'>{$startTime}</div>
-            <div class='task-title'>{$task['tytul']}</div>
-            <div class='task-time end-time'>{$endTime}</div>
-          </a>";
+        $importantClass = $task['czyWazne'] == 1 ? 'important' : '';
+        return "<a href='zadanie.php?id={$task['idZadania']}' class='task {$importantClass}' style='flex: 0 0 {$width}%'>
+        <div class='task-time start-time'>{$startTime}</div>
+        <div class='task-title'>{$task['tytul']}</div>
+        <div class='task-time end-time'>{$endTime}</div>
+      </a>";
     }
+
 
     public function renderDay($dayName, $dayDate, $tasks, $startOfDay, $endOfDay)
     {

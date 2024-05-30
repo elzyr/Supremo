@@ -162,6 +162,25 @@ a {
 .error {
   background-color: red;
 }
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(240, 102, 112, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(240, 102, 112, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(240, 102, 112, 0.6);
+  }
+}
+
+.important {
+  background-color: #f06670;
+  box-shadow: 0 0 10px rgba(240, 102, 112, 0.6);
+  border: 2px solid #e0555a;
+  border-radius: 5px;
+  animation: pulseGlow 2s infinite;
+}
 
 @keyframes fadeOut {
   to {

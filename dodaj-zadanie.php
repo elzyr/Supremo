@@ -4,10 +4,7 @@ require('php/dbConnect.php');
 include("class/Task.php");
 
 if (!isset($_GET['taskDate'])) {
-    setcookie("error_message", "Nie podano daty!", time() + 5, "/");
-    echo '<script type="text/javascript">
-       window.history.back();
-      </script>';
+    displayErrorMessege("Nie podano daty!");
 }
 $taskDate = $conn->real_escape_string($_GET['taskDate']);
 
@@ -15,8 +12,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $date = $conn->real_escape_string($_POST['date']);
     $title = $conn->real_escape_string($_POST['title']);
     $description = $conn->real_escape_string($_POST['description']);
-    $startTime = $conn->real_escape_string($_POST['start_time']);
-    $endTime = $conn->real_escape_string($_POST['end_time']);
+    $startTime = $conn->real_escape_string($_POST['startTime']);
+    $endTime = $conn->real_escape_string($_POST['endTime']);
+    $important = isset($_POST['important']) ? 1 : 0;
     $userId = $user->getId();
     $startDateTime = "$date $startTime";
     $endDateTime = "$date $endTime";
@@ -38,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             $zadanie = Task::create($title, $description, $startDateTime, $endDateTime);
             $zadanie->addUser($userId);
+            $zadanie->setImportantValue($important, $user->getId());
             $conn->close();
             setcookie("success_message", "Pomyślnie utworzono zadanie", time() + 5, "/");
             header("location: plan-tygodnia.php?date=$taskDate");
@@ -64,13 +63,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="hidden" name="date" value="<?php echo htmlspecialchars($taskDate); ?>">
             <input type="hidden" name="taskDate" value="<?php echo htmlspecialchars($taskDate); ?>">
             <label for="start_time">Godzina rozpoczęcia</label>
-            <input type="time" id="start_time" name="start_time" required>
+            <input type="time" id="start_time" name="startTime" required>
             <label for="end_time">Godzina zakończenia</label>
-            <input type="time" id="end_time" name="end_time" required>
+            <input type="time" id="end_time" name="endTime" required>
             <label for="title">Tytuł zadania</label>
             <input type="text" id="title" name="title" required>
             <label for="description">Opis</label>
             <textarea id="description" name="description"></textarea>
+            <label for="important">Ważne</label>
+            <input type="checkbox" id="important" name="important">
             <?php if (isset($error)) : ?>
                 <p style="color: red;"><?php echo $error; ?></p>
             <?php endif; ?>

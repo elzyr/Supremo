@@ -57,20 +57,39 @@ class Task
         }
     }
 
+    public function setImportantValue($value, $userId): bool
+    {
+        require("./php/dbConnect.php");
+
+        $updateQuery = "UPDATE zadaniaUzytkownikow SET 
+                    czyWazne = $value
+                    WHERE idZadania = $this->taskId AND idUzytkownika = $userId";
+
+        if ($conn->query($updateQuery)) {
+            $conn->close();
+            return true;
+        }
+
+        $conn->close();
+        return false;
+    }
 
     public function update(string $title, string $description, string $startDate, string $endDate): bool
     {
         require("./php/dbConnect.php");
+
         $updateQuery = "UPDATE zadania SET 
                     tytul = '$title', 
                     opis = '$description', 
                     dataRozpoczecia = '$startDate', 
                     dataZakonczenia = '$endDate'
-                    WHERE idZadania = '" . $this->taskId . "'";
+                    WHERE idZadania = $this->taskId";
+
         if ($conn->query($updateQuery)) {
             $conn->close();
             return true;
         }
+
         $conn->close();
         return false;
     }
@@ -153,10 +172,24 @@ class Task
             return false;
         }
         require("./php/dbConnect.php");
-        $query = "INSERT INTO zadaniauzytkownikow (idUzytkownika, idZadania) VALUES ('" . $userId . "', '" . $this->getId() . "')";
+        $query = "INSERT INTO zadaniauzytkownikow (idUzytkownika, idZadania) VALUES ('" . $userId . "', '" . $this->taskId . "')";
         $conn->query($query);
         $conn->close();
         return true;
+    }
+
+    public function isImportant($userId)
+    {
+        require("./php/dbConnect.php");
+        $sql = "SELECT * FROM zadaniaUzytkownikow WHERE idZadania=$this->taskId and idUzytkownika=$userId";
+        $result = $conn->query($sql);
+        if ($result && $result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $conn->close();
+            return $row["czyWazne"];
+        }
+        $conn->close();
+        return null;
     }
 }
 function validateDates($startDate, $endDate)

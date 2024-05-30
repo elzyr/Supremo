@@ -5,20 +5,15 @@ require("class/Task.php");
 require("php/dbConnect.php");
 
 if (!isset($_GET['id'])) {
-    setcookie("error_message", "Nie podano zadania!", time() + 5, "/");
-    echo '<script type="text/javascript">
-       window.history.back();
-      </script>';
+    displayErrorMessege("Nie podano zadania!");
 }
 
 $task = Task::load($_GET['id']);
 if ($task == null) {
-    echo "Nie znaleziono zadania";
-    exit();
+    displayErrorMessege("Nie znaleziono zadania!");
 }
 if (!$task->checkPermission($user->getId())) {
-    echo "Nie masz dostępu do tego zadania!";
-    exit();
+    displayErrorMessege("Nie masz dostępu do tego zadania!");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
