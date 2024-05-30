@@ -21,14 +21,13 @@ $errorMsg = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require("php/dbConnect.php");
-    $tytul = $conn->real_escape_string($_POST['tytul']);
-    $opis = $conn->real_escape_string($_POST['opis']);
-    $dataRozpoczecia = $conn->real_escape_string($_POST['dataRozpoczecia']);
-    $dataZakonczenia = $conn->real_escape_string($_POST['dataZakonczenia']);
-
-    $validationResult = validateDates($dataRozpoczecia, $dataZakonczenia);
+    $tytul = $conn->real_escape_string($_POST['title']);
+    $opis = $conn->real_escape_string($_POST['description']);
+    $startTime = $conn->real_escape_string($_POST['startDate']);
+    $endDate = $conn->real_escape_string($_POST['endDate']);
+    $validationResult = validateDates($startTime, $endDate);
     if ($validationResult === true) {
-        if ($task->update($tytul, $opis, $dataRozpoczecia, $dataZakonczenia)) {
+        if ($task->update($tytul, $opis, $startTime, $endDate)) {
             setcookie("update_message", "Pomyślnie zaktualizowano zadanie", time() + 5, "/");
             header("Location: zadanie.php?id=" . $task->getId());
             exit();
@@ -40,21 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-function validateDates($startDate, $endDate)
-{
-    $start = new DateTime($startDate);
-    $end = new DateTime($endDate);
-
-    if ($start > $end) {
-        return "Data rozpoczęcia nie może być późniejsza niż data zakończenia.";
-    }
-
-    if ($start->format('Y-m-d') !== $end->format('Y-m-d')) {
-        return "Data rozpoczęcia i zakończenia musi być tego samego dnia.";
-    }
-
-    return true;
-}
 ?>
 
 <!DOCTYPE html>
@@ -72,13 +56,13 @@ function validateDates($startDate, $endDate)
         <h1>Edytuj zadanie</h1>
         <form action="edit-task.php?id=<?php echo $task->getId(); ?>" method="post">
             <label for="tytul">Tytuł:</label>
-            <input type="text" id="tytul" name="tytul" value="<?php echo htmlspecialchars($task->getTitle()); ?>" required>
+            <input type="text" id="tytul" name="title" value="<?php echo htmlspecialchars($task->getTitle()); ?>" required>
             <label for="opis">Opis:</label>
-            <textarea id="opis" name="opis"><?php echo htmlspecialchars($task->getDescription()); ?></textarea>
+            <textarea id="opis" name="description"><?php echo htmlspecialchars($task->getDescription()); ?></textarea>
             <label for="dataRozpoczecia">Data rozpoczęcia:</label>
-            <input type="datetime-local" id="dataRozpoczecia" name="dataRozpoczecia" value="<?php echo str_replace(' ', 'T', $task->getStartDate()); ?>" required>
+            <input type="datetime-local" name="startDate" value="<?php echo str_replace(' ', 'T', $task->getStartDate()); ?>" required>
             <label for="dataZakonczenia">Data zakończenia:</label>
-            <input type="datetime-local" id="dataZakonczenia" name="dataZakonczenia" value="<?php echo str_replace(' ', 'T', $task->getEndDate()); ?>" required>
+            <input type="datetime-local" name="endDate" value="<?php echo str_replace(' ', 'T', $task->getEndDate()); ?>" required>
             <?php if ($errorMsg) : ?>
                 <p class="error-msg"><?php echo $errorMsg; ?></p>
             <?php endif; ?>
