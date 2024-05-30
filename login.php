@@ -2,7 +2,7 @@
 include("class/User.php");
 $error_message = "";
 if (User::loadFromSession()) {
-    header('Location: dashboard.php');
+    header('Location: kalendarz.php');
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
