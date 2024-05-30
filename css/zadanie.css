@@ -37,16 +37,6 @@ strong {
   justify-content: center;
   margin: 10px 0;
 }
-button {
-  padding: 10px;
-  background-color: #6670f0;
-  color: #fff;
-  border: none;
-  border-radius: 25px;
-  font-size: 1em;
-  cursor: pointer;
-  margin-top: 10px;
-}
 
 button:hover {
   background-color: #5460d1;
@@ -78,6 +68,7 @@ label {
   font-size: 0.9em;
   color: #34495e;
 }
+
 .button {
   display: inline-block;
   padding: 10px 20px;
@@ -90,21 +81,7 @@ label {
   margin: 10px 5px;
   cursor: pointer;
 }
-a.button {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #6670f0;
-  color: #fff;
-  border: none;
-  border-radius: 25px;
-  font-size: 1em;
-  text-decoration: none;
-  margin-top: 10px;
-  cursor: pointer;
-}
-a.button:hover {
-  background-color: #5460d1;
-}
+
 .back-button {
   display: block;
   text-decoration: none;
@@ -118,17 +95,6 @@ a.button:hover {
 
 .button:hover {
   background-color: #5460d1;
-}
-
-.back-button {
-  display: block;
-  text-decoration: none;
-  color: #6670f0;
-  font-size: 0.9em;
-}
-
-.back-button:hover {
-  text-decoration: underline;
 }
 
 .button-red {

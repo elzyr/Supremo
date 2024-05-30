@@ -82,9 +82,8 @@ function validateDates($startDate, $endDate)
             <?php if ($errorMsg) : ?>
                 <p class="error-msg"><?php echo $errorMsg; ?></p>
             <?php endif; ?>
-            <button type="submit">Zapisz zmiany</button>
+            <button class="button" type="submit">Zapisz zmiany</button>
         </form>
-        <br>
         <?php
         echo '<a href="zadanie.php?id=' . $task->getId() . '" class="back-button">Powrót do zadania</a>';
         ?>

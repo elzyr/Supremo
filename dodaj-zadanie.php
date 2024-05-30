@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <?php if (isset($error)) : ?>
                 <p style="color: red;"><?php echo $error; ?></p>
             <?php endif; ?>
-            <button type="submit">Dodaj</button>
+            <button class="buttons-container button" type="submit">Dodaj</button>
         </form>
         <a href="plan-tygodnia.php?date=<?php echo htmlspecialchars($taskDate); ?>" class="back-button">Powrót do planu tygodnia</a>
     </div>
