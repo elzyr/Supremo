@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/dodaj-zadanie.css">
+    <link rel="stylesheet" href="css/zadanie.css">
     <title>Dodaj zadanie</title>
 </head>
 

@@ -13,7 +13,7 @@ body {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
+  width: 400px;
   text-align: center;
 }
 
@@ -37,7 +37,47 @@ strong {
   justify-content: center;
   margin: 10px 0;
 }
+button {
+  padding: 10px;
+  background-color: #6670f0;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-top: 10px;
+}
 
+button:hover {
+  background-color: #5460d1;
+}
+textarea {
+  resize: none;
+  height: 100px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #aaa;
+}
+
+input[type="text"],
+input[type="time"],
+textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 0.9em;
+  background-color: #f9f9f9;
+  width: 100%;
+  box-sizing: border-box;
+}
+label {
+  margin: 10px 0 5px;
+  font-size: 0.9em;
+  color: #34495e;
+}
 .button {
   display: inline-block;
   padding: 10px 20px;
@@ -49,6 +89,31 @@ strong {
   text-decoration: none;
   margin: 10px 5px;
   cursor: pointer;
+}
+a.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #6670f0;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  font-size: 1em;
+  text-decoration: none;
+  margin-top: 10px;
+  cursor: pointer;
+}
+a.button:hover {
+  background-color: #5460d1;
+}
+.back-button {
+  display: block;
+  text-decoration: none;
+  color: #6670f0;
+  font-size: 0.9em;
+}
+
+.back-button:hover {
+  text-decoration: underline;
 }
 
 .button:hover {
@@ -73,9 +138,9 @@ strong {
 .button-red:hover {
   background-color: #c0392b;
 }
-
 form {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
 }
 
 hr {
@@ -87,4 +152,9 @@ hr {
 .success-msg {
   color: green;
   font-weight: bold;
+}
+.error-msg {
+  color: red;
+  margin-bottom: 10px;
+  font-size: 0.9em;
 }
