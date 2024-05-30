@@ -2,15 +2,15 @@
 require("php/verifyUser.php");
 require("class/Task.php");
 if (!isset($_GET['id'])) {
-    displayErrorMessege("Nie podano zadania!");;
+    displayErrorMessage("Nie podano zadania!");;
 }
 
 $task = Task::load($_GET['id']);
 if ($task == null) {
-    displayErrorMessege("Nie znaleziono zadania!");
+    displayErrorMessage("Nie znaleziono zadania!");
 }
-if (!$task->checkPermission($user->getId())) {
-    displayErrorMessege("Nie masz dostępu do tego zadania!");
+if (!$task->checkUserPermission($user->getId())) {
+    displayErrorMessage("Nie masz dostępu do tego zadania!");
 }
 $error = '';
 

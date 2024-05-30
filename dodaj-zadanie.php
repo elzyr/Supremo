@@ -4,7 +4,7 @@ require('php/dbConnect.php');
 include("class/Task.php");
 
 if (!isset($_GET['taskDate'])) {
-    displayErrorMessege("Nie podano daty!");
+    displayErrorMessage("Nie podano daty!");
 }
 $taskDate = $conn->real_escape_string($_GET['taskDate']);
 
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } elseif ($startHour < $minHour || $startHour > $maxHour || $endHour < $minHour || $endHour > $maxHour) {
         $error = "Czas zadania musi być w przedziale 8:00 - 20:00.";
     } else {
-        if (!(Task::checkAvailability($startDateTime, $endDateTime, $userId))) {
+        if (!(Task::checkUserAvailability($startDateTime, $endDateTime, $userId))) {
             $error = "W podanym okresie istnieje już inne zadanie.";
         } else {
             $zadanie = Task::create($title, $description, $startDateTime, $endDateTime);

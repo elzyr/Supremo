@@ -114,9 +114,9 @@ class User
     }
 }
 
-function displayErrorMessege($messege)
+function displayErrorMessage($message)
 {
-    setcookie("error_message", "$messege", time() + 5, "/");
+    setcookie("error_message", "$message", time() + 5, "/");
     echo '<script type="text/javascript">
        window.history.back();
       </script>';
