@@ -1,5 +1,6 @@
 <?php
-include("class/uzytkownik.php");
+include("class/User.php");
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
@@ -12,12 +13,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("ss", $email, $phone);
         $stmt->execute();
         if ($stmt->get_result()->num_rows == 1) {
-            $user = new Uzytkownik($email, "");
+            $user = new User($email, "");
             $user->changePassword($_POST['new_password']);
             header("location: login.php");
         } else {
             $error_message = "Nie znaleziono użytkownika!";
         }
+        $stmt->close();
+        $conn->close();
     }
 }
 ?>
@@ -48,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php if (isset($error_message) && !empty($error_message)) : ?>
                 <div class="error-message"><?php echo $error_message; ?></div>
             <?php endif; ?>
-            <button type="button" class="btn forgot_password">Zmień Hasło</button>
+            <button type="submit" class="btn forgot_password">Zmień Hasło</button>
             <a href="login.php">
                 <button type="button" class="btn btn-login">Zaloguj się</button>
             </a>
