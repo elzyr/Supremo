@@ -2,22 +2,17 @@
 require("php/verifyUser.php");
 require("class/Task.php");
 if (!isset($_GET['id'])) {
-    setcookie("error_message", "Nie znaleziono zadania!", time() + 5, "/");
-    echo '<script type="text/javascript">
-       window.history.back();
-      </script>';
+    displayErrorMessage("Nie podano zadania!");;
 }
 
 $task = Task::load($_GET['id']);
 if ($task == null) {
-    echo "Nie znaleziono zadania";
-    exit();
+    displayErrorMessage("Nie znaleziono zadania!");
 }
-if (!$task->checkPermission($user->getId())) {
-    echo "Nie masz dostępu do tego zadania!";
-    exit();
+if (!$task->checkUserPermission($user->getId())) {
+    displayErrorMessage("Nie masz dostępu do tego zadania!");
 }
-$errorMsg = '';
+$error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require("php/dbConnect.php");
@@ -25,17 +20,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $opis = $conn->real_escape_string($_POST['description']);
     $startTime = $conn->real_escape_string($_POST['startDate']);
     $endDate = $conn->real_escape_string($_POST['endDate']);
+    $important = isset($_POST['important']) ? 1 : 0;
     $validationResult = validateDates($startTime, $endDate);
     if ($validationResult === true) {
-        if ($task->update($tytul, $opis, $startTime, $endDate)) {
+        if ($task->update($tytul, $opis, $startTime, $endDate) && $task->setImportantValue($important, $user->getId())) {
             setcookie("update_message", "Pomyślnie zaktualizowano zadanie", time() + 5, "/");
             header("Location: zadanie.php?id=" . $task->getId());
             exit();
         } else {
-            $errorMsg = "Wystąpił błąd podczas aktualizacji zadania";
+            $error = "Wystąpił błąd podczas aktualizacji zadania";
         }
     } else {
-        $errorMsg = $validationResult;
+        $error = $validationResult;
     }
 }
 
@@ -63,8 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="datetime-local" name="startDate" value="<?php echo str_replace(' ', 'T', $task->getStartDate()); ?>" required>
             <label for="dataZakonczenia">Data zakończenia:</label>
             <input type="datetime-local" name="endDate" value="<?php echo str_replace(' ', 'T', $task->getEndDate()); ?>" required>
-            <?php if ($errorMsg) : ?>
-                <p class="error-msg"><?php echo $errorMsg; ?></p>
+            <label for="important">Ważne</label>
+            <input type="checkbox" id="important" name="important" <?php echo $task->isImportant($user->getId()) ? 'checked' : ''; ?>>
+            <?php if ($error) : ?>
+                <p class="error-msg"><?php echo $error; ?></p>
             <?php endif; ?>
             <button class="button" type="submit">Zapisz zmiany</button>
         </form>

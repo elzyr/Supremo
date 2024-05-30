@@ -8,56 +8,6 @@ class WeekSchedule
         $this->conn = $conn;
     }
 
-    public function timeToHourIndex($dateTime, $baseTime = '08:00:00')
-    {
-        $timeOnly = date('H:i:s', strtotime($dateTime));
-        $baseTimeOnly = date('H:i:s', strtotime($baseTime));
-
-        $currentSeconds = strtotime("1970-01-01 $timeOnly UTC");
-        $baseSeconds = strtotime("1970-01-01 $baseTimeOnly UTC");
-
-        return (int)(($currentSeconds - $baseSeconds) / 60);
-    }
-
-    public function calculateWidth($startTimeIndex, $endTimeIndex)
-    {
-        $totalSlots = 720; // 12 godzin * 60 minut
-        $duration = $endTimeIndex - $startTimeIndex;
-        return ($duration / $totalSlots) * 100;
-    }
-
-    public function generateEmptySlots($startTimeIndex, $endTimeIndex, $date)
-    {
-        if ($startTimeIndex >= $endTimeIndex) {
-            return '';
-        }
-        $width = $this->calculateWidth($startTimeIndex, $endTimeIndex);
-        return "<div class='empty-slot' data-date='$date' style='flex: 0 0 {$width}%' title='dodaj zadanie' onclick='window.location.href=\"dodaj-zadanie.php?taskDate=" . $date . "\"'></div>";
-    }
-
-
-    public function getTasksForDay($day, $userId)
-    {
-        $day = $this->conn->real_escape_string($day);
-        $userId = $this->conn->real_escape_string($userId);
-
-        $query = "SELECT DISTINCT z.* FROM zadania z
-                  INNER JOIN zadaniauzytkownikow zu ON zu.idZadania = z.idZadania
-                  WHERE DATE(z.dataRozpoczecia) = '$day'
-                  AND zu.idUzytkownika = '$userId'
-                  ORDER BY z.dataRozpoczecia ASC";
-        $result = $this->conn->query($query);
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function renderTask($task, $startTime, $endTime, $width)
-    {
-        return "<a href='zadanie.php?id={$task['idZadania']}' class='task' style='flex: 0 0 {$width}%'>
-            <div class='task-time start-time'>{$startTime}</div>
-            <div class='task-title'>{$task['tytul']}</div>
-            <div class='task-time end-time'>{$endTime}</div>
-          </a>";
-    }
 
     public function renderDay($dayName, $dayDate, $tasks, $startOfDay, $endOfDay)
     {
@@ -106,5 +56,57 @@ class WeekSchedule
             $date->add(new DateInterval('P1D'));
         }
         echo '</div>';
+    }
+
+    private function timeToHourIndex($dateTime, $baseTime = '08:00:00')
+    {
+        $timeOnly = date('H:i', strtotime($dateTime));
+        $baseTimeOnly = date('H:i', strtotime($baseTime));
+
+        $currentSeconds = strtotime("1970-01-01 $timeOnly UTC");
+        $baseSeconds = strtotime("1970-01-01 $baseTimeOnly UTC");
+
+        return (int)(($currentSeconds - $baseSeconds) / 60);
+    }
+
+    private function calculateWidth($startTimeIndex, $endTimeIndex)
+    {
+        $totalSlots = 720; // 12 godzin * 60 minut
+        $duration = $endTimeIndex - $startTimeIndex;
+        return ($duration / $totalSlots) * 100;
+    }
+
+    private function generateEmptySlots($startTimeIndex, $endTimeIndex, $date)
+    {
+        if ($startTimeIndex >= $endTimeIndex) {
+            return '';
+        }
+        $width = $this->calculateWidth($startTimeIndex, $endTimeIndex);
+        return "<div class='empty-slot' data-date='$date' style='flex: 0 0 {$width}%' title='dodaj zadanie' onclick='window.location.href=\"dodaj-zadanie.php?taskDate=" . $date . "\"'></div>";
+    }
+
+
+    private function getTasksForDay($day, $userId)
+    {
+        $day = $this->conn->real_escape_string($day);
+        $userId = $this->conn->real_escape_string($userId);
+
+        $query = "SELECT DISTINCT * FROM zadania z
+                  INNER JOIN zadaniauzytkownikow zu ON zu.idZadania = z.idZadania
+                  WHERE DATE(z.dataRozpoczecia) = '$day'
+                  AND zu.idUzytkownika = '$userId'
+                  ORDER BY z.dataRozpoczecia ASC";
+        $result = $this->conn->query($query);
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    private function renderTask($task, $startTime, $endTime, $width)
+    {
+        $importantClass = $task['czyWazne'] == 1 ? 'important' : '';
+        return "<a href='zadanie.php?id={$task['idZadania']}' class='task {$importantClass}' style='flex: 0 0 {$width}%'>
+        <div class='task-time start-time'>{$startTime}</div>
+        <div class='task-title'>{$task['tytul']}</div>
+        <div class='task-time end-time'>{$endTime}</div>
+      </a>";
     }
 }

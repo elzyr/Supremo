@@ -43,6 +43,20 @@ class Task
     }
 
 
+    static function load(int $taskId): ?Task
+    {
+        require("./php/dbConnect.php");
+        $sql = "SELECT * FROM zadania WHERE idZadania=$taskId";
+        $result = $conn->query($sql);
+        if ($result && $result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $conn->close();
+            return new Task($row["tytul"], $row["opis"], $row["dataRozpoczecia"], $row["dataZakonczenia"], $taskId);
+        }
+        $conn->close();
+        return null;
+    }
+
     static function create(string $title, string $description, string $startDate, string $endDate): ?Task
     {
         require("./php/dbConnect.php");
@@ -61,16 +75,19 @@ class Task
     public function update(string $title, string $description, string $startDate, string $endDate): bool
     {
         require("./php/dbConnect.php");
+
         $updateQuery = "UPDATE zadania SET 
                     tytul = '$title', 
                     opis = '$description', 
                     dataRozpoczecia = '$startDate', 
                     dataZakonczenia = '$endDate'
-                    WHERE idZadania = '" . $this->taskId . "'";
+                    WHERE idZadania = $this->taskId";
+
         if ($conn->query($updateQuery)) {
             $conn->close();
             return true;
         }
+
         $conn->close();
         return false;
     }
@@ -103,21 +120,7 @@ class Task
         return true;
     }
 
-    static function load(int $taskId): ?Task
-    {
-        require("./php/dbConnect.php");
-        $sql = "SELECT * FROM zadania WHERE idZadania=$taskId";
-        $result = $conn->query($sql);
-        if ($result && $result->num_rows == 1) {
-            $row = $result->fetch_assoc();
-            $conn->close();
-            return new Task($row["tytul"], $row["opis"], $row["dataRozpoczecia"], $row["dataZakonczenia"], $taskId);
-        }
-        $conn->close();
-        return null;
-    }
-
-    public function checkPermission(int $userId): bool
+    public function checkUserPermission(int $userId): bool
     {
         require("./php/dbConnect.php");
         $sql = "SELECT * FROM zadaniaUzytkownikow WHERE idZadania=$this->taskId AND idUzytkownika=$userId";
@@ -130,7 +133,7 @@ class Task
         return false;
     }
 
-    static function checkAvailability(string $startDate, string $endDate, int $userId): bool
+    static function checkUserAvailability(string $startDate, string $endDate, int $userId): bool
     {
         require("./php/dbConnect.php");
         $query = "SELECT * FROM zadania z
@@ -149,14 +152,44 @@ class Task
 
     public function addUser(int $userId): bool
     {
-        if (!(Task::checkAvailability($this->startDate, $this->endDate, $userId))) {
+        if (!(Task::checkUserAvailability($this->startDate, $this->endDate, $userId))) {
             return false;
         }
         require("./php/dbConnect.php");
-        $query = "INSERT INTO zadaniauzytkownikow (idUzytkownika, idZadania) VALUES ('" . $userId . "', '" . $this->getId() . "')";
+        $query = "INSERT INTO zadaniauzytkownikow (idUzytkownika, idZadania) VALUES ('" . $userId . "', '" . $this->taskId . "')";
         $conn->query($query);
         $conn->close();
         return true;
+    }
+
+    public function isImportant($userId)
+    {
+        require("./php/dbConnect.php");
+        $sql = "SELECT * FROM zadaniaUzytkownikow WHERE idZadania=$this->taskId and idUzytkownika=$userId";
+        $result = $conn->query($sql);
+        if ($result && $result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $conn->close();
+            return $row["czyWazne"];
+        }
+        $conn->close();
+        return null;
+    }
+    public function setImportantValue($value, $userId): bool
+    {
+        require("./php/dbConnect.php");
+
+        $updateQuery = "UPDATE zadaniaUzytkownikow SET 
+                    czyWazne = $value
+                    WHERE idZadania = $this->taskId AND idUzytkownika = $userId";
+
+        if ($conn->query($updateQuery)) {
+            $conn->close();
+            return true;
+        }
+
+        $conn->close();
+        return false;
     }
 }
 function validateDates($startDate, $endDate)

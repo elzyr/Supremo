@@ -113,3 +113,11 @@ class User
         return $this->id;
     }
 }
+
+function displayErrorMessage($message)
+{
+    setcookie("error_message", "$message", time() + 5, "/");
+    echo '<script type="text/javascript">
+       window.history.back();
+      </script>';
+}
