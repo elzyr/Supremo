@@ -67,7 +67,7 @@ body {
     justify-content: space-around;
 }
 
-.dates a {
+.inMonth{
     text-decoration: none; 
     flex: 0 0 calc(14.28% - 20px);
     height: 70px;
@@ -79,13 +79,21 @@ body {
     border-radius: 7px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     display: flex;
-}
-
-.inMonth{
     background-color: #ffffff;
     color: black;
 }
 .otherMonth {
+    text-decoration: none; 
+    flex: 0 0 calc(14.28% - 20px);
+    height: 70px;
+    padding: 10px;
+    text-align: right;
+    align-self: flex-start; 
+    position: relative;
+    margin: 5px;
+    border-radius: 7px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
     background-color: #cfcaca; 
     color: #6b6565; 
 }

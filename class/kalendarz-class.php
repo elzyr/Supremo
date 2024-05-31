@@ -53,7 +53,7 @@ class Calendar {
         $result = $this->conn->query($query);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-   
+
     private function getDay($cellNumber, $userId) {
         $firstDayOfTheWeek = date('N', strtotime($this->currentYear.'-'.$this->currentMonth.'-01'));
         $lastDayOfTheMonth = date('t', strtotime('last day of '.$this->currentYear.'-'.$this->currentMonth));
@@ -96,33 +96,29 @@ class Calendar {
             $classes .= 'inMonth ';
         }
     
-
         $tasks = $this->getTaskInDay($this->currentDate, $userId);
- 
         $TaskInDay = '';
         $count = 0;
         foreach ($tasks as $task) {
-            if($count < 3){
-                if($task['czyWazne'] == 0){
-                    $TaskInDay .= '<div class="taskInDay" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'"></div>';
-                }else{
-                    $TaskInDay .= '<div class="taskInDay important" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'"></div>';
+            if ($count < 3) {
+                if ($task['czyWazne'] == 0) {
+                    $TaskInDay .= '<a class="taskInDay" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'" href="zadanie.php?id='.$task['idZadania'].'"></a>';
+                } else {
+                    $TaskInDay .= '<a class="taskInDay important" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'" href="zadanie.php?id='.$task['idZadania'].'"></a>';
                 }
-                
-            }else{
+            } else {
                 break;
             }
             $count++;
         }
     
         $cellContent = $currentDayInMonth . $TaskInDay;
-        $content = '<a class="' . $classes . '" href="plan-tygodnia.php?date=' . $this->currentDate . '">' . $cellContent . '</a>';
+        $content = '<div class="' . $classes . '" onclick="window.location.href=\'plan-tygodnia.php?date=' . $this->currentDate . '\'">' . $cellContent . '</div>';
     
         return $content;
     }
     
-     
-
+   
     public function createHeader(){
         if ($this->currentMonth == 12) {
             $nextMonth = 1;
