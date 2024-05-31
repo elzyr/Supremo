@@ -2,7 +2,7 @@
 require_once './php/dbConnect.php';
 require('navbar.php');
 
-$sql = "SELECT * FROM zadania";
+$sql = "SELECT * FROM zadania WHERE czyEvent = 1";
 $events = $conn->query($sql);
 ?>
 
