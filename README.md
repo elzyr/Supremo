@@ -27,6 +27,8 @@
 
 
 5. **W module MySQL wejdź w zakładke `Admin`**
+
+  JEŻELI POSIADASZ BAZE DANYCH `supremo` TO NALEŻY JĄ USUNĄĆ
    
 6. **Po lewej stronie ekranu naciśnij przycisk `new`, nazwij nową bazę danych `supremo`.**
 
