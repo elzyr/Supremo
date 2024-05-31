@@ -12,22 +12,19 @@ class Calendar {
     public function __construct(mysqli $conn){     
         $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
         $this->conn = $conn;
-        $year  = null;
-        $month = null;   
+      
         if(isset($_GET['year'])){
-            $year = $_GET['year'];
-        }else if(null==$year){
-            $year = date("Y",time());  
+            $this->currentYear = $_GET['year'];
+        }else{
+            $this->currentYear = date("Y",time());  
         }          
         if(isset($_GET['month'])){
-            $month = $_GET['month'];
-        }else if(null==$month){
-            $month = date("m",time());
+            $this->currentMonth = $_GET['month'];
+        }else{
+            $this->currentMonth = date("m",time());
         }                  
          
-        $this->currentYear=$year;
-        $this->currentMonth=$month;
-        $this->daysInMonth=$this->getNumberDayInMonth($month,$year);  
+        $this->daysInMonth=$this->getNumberDayInMonth($this->currentMonth,$this->currentYear);  
     }
 
     public function showDayInCalendar($user) {
@@ -103,8 +100,14 @@ class Calendar {
         $tasks = $this->getTaskInDay($this->currentDate, $userId);
  
         $TaskInDay = '';
+        $count = 0;
         foreach ($tasks as $task) {
-            $TaskInDay .= '<div class="taskInDay" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'"></div>';
+            if($count < 3){
+                $TaskInDay .= '<div class="taskInDay" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'"></div>';
+            }else{
+                break;
+            }
+            $count++;
         }
     
         $cellContent = $TaskInDay . $currentDayInMonth;
