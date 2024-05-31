@@ -6,7 +6,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error_message = "Podaj poprawne Imie";
     } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         $error_message = "Niepoprawny format e-maila";
-    } else {
+    } elseif(!isCorrectPassword($_POST['password'])){
+        $error_message = "Hasło musi zawierać przynajmniej jedna dużą literę,<br> jedną cyfrę oraz znak specjalny";
+    } elseif(!isSpecialChar($_POST['password'])){
+        $error_message = "Hasło musi zawierać przynajmniej jedna dużą literę,<br> jedną cyfrę oraz znak specjalny";
+    }
+    else {
         $user = new User($_POST['email'],  $_POST['password']);
         if ($user->create($_POST['name'], $_POST['last_name'], $_POST['phone']) == true) {
             $error_message = 'Konto stworzone pomyślnie!';
