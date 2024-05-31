@@ -5,6 +5,7 @@
 <title>Kalendarz</title>
 </head>
 <body>
+
 <script>
         document.addEventListener('DOMContentLoaded', function() {
             const tasks = document.querySelectorAll('.task');
@@ -16,6 +17,7 @@
             });
         });
 </script>
+
 <?php
 include 'class/kalendarz-class.php';
 require("php/verifyUser.php");
@@ -34,6 +36,5 @@ $calendar = new Calendar($conn);?>
     </div>
 </div>
 
-   
 </body>
 </html>

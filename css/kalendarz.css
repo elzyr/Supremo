@@ -67,41 +67,51 @@ body {
     justify-content: space-around;
 }
 
-.dates a {
+.inMonth{
     text-decoration: none; 
     flex: 0 0 calc(14.28% - 20px);
     height: 70px;
     padding: 10px;
     text-align: right;
-    align-self: flex-start; /* Wyśrodkowanie tekstu w prawym górnym rogu */
+    align-self: flex-start; 
     position: relative;
     margin: 5px;
     border-radius: 7px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     display: flex;
-}
-
-.inMonth{
     background-color: #ffffff;
     color: black;
 }
 .otherMonth {
+    text-decoration: none; 
+    flex: 0 0 calc(14.28% - 20px);
+    height: 70px;
+    padding: 10px;
+    text-align: right;
+    align-self: flex-start; 
+    position: relative;
+    margin: 5px;
+    border-radius: 7px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
     background-color: #cfcaca; 
     color: #6b6565; 
 }
 .taskInDay {
     display: inline-block;
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     margin: 2px;
-    background-color: red; 
+    background-color: 3180c9; 
     border-radius: 50%;
-    position: relative;
-
+    align-self: flex-end;
+    right: 5px;
 }
-
+.taskInDay.important{
+    background-color: red; 
+}
 .taskInDay::after {
-    content: attr(titleTask) "\A" attr(descriptionTask);
+    content: attr(titleTask) "\A\A" attr(descriptionTask);
     display: none;
     position: absolute;
     top: 100%;

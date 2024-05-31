@@ -12,22 +12,19 @@ class Calendar {
     public function __construct(mysqli $conn){     
         $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
         $this->conn = $conn;
-        $year  = null;
-        $month = null;   
+      
         if(isset($_GET['year'])){
-            $year = $_GET['year'];
-        }else if(null==$year){
-            $year = date("Y",time());  
+            $this->currentYear = $_GET['year'];
+        }else{
+            $this->currentYear = date("Y",time());  
         }          
         if(isset($_GET['month'])){
-            $month = $_GET['month'];
-        }else if(null==$month){
-            $month = date("m",time());
+            $this->currentMonth = $_GET['month'];
+        }else{
+            $this->currentMonth = date("m",time());
         }                  
          
-        $this->currentYear=$year;
-        $this->currentMonth=$month;
-        $this->daysInMonth=$this->getNumberDayInMonth($month,$year);  
+        $this->daysInMonth=$this->getNumberDayInMonth($this->currentMonth,$this->currentYear);  
     }
 
     public function showDayInCalendar($user) {
@@ -48,7 +45,7 @@ class Calendar {
         $day = $this->conn->real_escape_string($day);
         $userId = $this->conn->real_escape_string($userId);
 
-        $query = "SELECT DISTINCT z.* FROM zadania z
+        $query = "SELECT DISTINCT z.*,zu.czyWazne FROM zadania z
                   INNER JOIN zadaniauzytkownikow zu ON zu.idZadania = z.idZadania
                   WHERE DATE(z.dataRozpoczecia) = '$day'
                   AND zu.idUzytkownika = '$userId'
@@ -56,7 +53,7 @@ class Calendar {
         $result = $this->conn->query($query);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
-   
+
     private function getDay($cellNumber, $userId) {
         $firstDayOfTheWeek = date('N', strtotime($this->currentYear.'-'.$this->currentMonth.'-01'));
         $lastDayOfTheMonth = date('t', strtotime('last day of '.$this->currentYear.'-'.$this->currentMonth));
@@ -99,22 +96,29 @@ class Calendar {
             $classes .= 'inMonth ';
         }
     
-
         $tasks = $this->getTaskInDay($this->currentDate, $userId);
- 
         $TaskInDay = '';
+        $count = 0;
         foreach ($tasks as $task) {
-            $TaskInDay .= '<div class="taskInDay" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'"></div>';
+            if ($count < 3) {
+                if ($task['czyWazne'] == 0) {
+                    $TaskInDay .= '<a class="taskInDay" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'" href="zadanie.php?id='.$task['idZadania'].'"></a>';
+                } else {
+                    $TaskInDay .= '<a class="taskInDay important" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'" href="zadanie.php?id='.$task['idZadania'].'"></a>';
+                }
+            } else {
+                break;
+            }
+            $count++;
         }
     
-        $cellContent = $TaskInDay . $currentDayInMonth;
-        $content = '<a class="' . $classes . '" href="plan-tygodnia.php?date=' . $this->currentDate . '">' . $cellContent . '</a>';
+        $cellContent = $currentDayInMonth . $TaskInDay;
+        $content = '<div class="' . $classes . '" onclick="window.location.href=\'plan-tygodnia.php?date=' . $this->currentDate . '\'">' . $cellContent . '</div>';
     
         return $content;
     }
     
-     
-
+   
     public function createHeader(){
         if ($this->currentMonth == 12) {
             $nextMonth = 1;
