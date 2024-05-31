@@ -110,7 +110,7 @@ class Calendar {
             $count++;
         }
     
-        $cellContent = $TaskInDay . $currentDayInMonth;
+        $cellContent = $currentDayInMonth . $TaskInDay;
         $content = '<a class="' . $classes . '" href="plan-tygodnia.php?date=' . $this->currentDate . '">' . $cellContent . '</a>';
     
         return $content;
