@@ -45,7 +45,7 @@ class Calendar {
         $day = $this->conn->real_escape_string($day);
         $userId = $this->conn->real_escape_string($userId);
 
-        $query = "SELECT DISTINCT z.* FROM zadania z
+        $query = "SELECT DISTINCT z.*,zu.czyWazne FROM zadania z
                   INNER JOIN zadaniauzytkownikow zu ON zu.idZadania = z.idZadania
                   WHERE DATE(z.dataRozpoczecia) = '$day'
                   AND zu.idUzytkownika = '$userId'
@@ -103,7 +103,12 @@ class Calendar {
         $count = 0;
         foreach ($tasks as $task) {
             if($count < 3){
-                $TaskInDay .= '<div class="taskInDay" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'"></div>';
+                if($task['czyWazne'] == 0){
+                    $TaskInDay .= '<div class="taskInDay" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'"></div>';
+                }else{
+                    $TaskInDay .= '<div class="taskInDay important" titleTask="'.$task['tytul'].'" descriptionTask="'.$task['opis'].'"></div>';
+                }
+                
             }else{
                 break;
             }

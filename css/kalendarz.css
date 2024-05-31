@@ -99,7 +99,9 @@ body {
     align-self: flex-end;
     right: 5px;
 }
-
+.taskInDay.important{
+    background-color: red; 
+}
 .taskInDay::after {
     content: attr(titleTask) "\A\A" attr(descriptionTask);
     display: none;
