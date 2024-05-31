@@ -47,22 +47,26 @@ if (isset($_GET['id'])) {
         <p><?php echo htmlspecialchars($event['opis']); ?></p>
 
         <div class="button-container">
-            <?php 
-            $nextId = $id + 1;
-            $nextEventSql = "SELECT * FROM zadania WHERE idZadania = $nextId";
-            $nextEventResult = $conn->query($nextEventSql);
-            
+             <a href="dodaj-zadanie.php?taskDate=<?php echo htmlspecialchars(date('Y-m-d', strtotime($event['dataRozpoczecia']))); ?>" class="button">Dodaj do kalendarza <i class="far fa-calendar-plus" style="margin-left: 5px;"></i></a>
+
+                <?php 
+                    $nextId = $id + 1;
+                    $nextEventSql = "SELECT * FROM zadania WHERE idZadania = $nextId";
+                    $nextEventResult = $conn->query($nextEventSql);
+    
             if ($nextEventResult->num_rows > 0) {
-                echo '<a href="event-detail.php?id=' . $nextId . '" class="button">Następne wydarzenie <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></a>';
+              echo '<a href="event-detail.php?id=' . $nextId . '" class="button">Następne wydarzenie <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></a>';
             } else {
-                $firstEventSql = "SELECT * FROM zadania ORDER BY idZadania ASC LIMIT 1";
-                $firstEventResult = $conn->query($firstEventSql);
-                $firstEvent = $firstEventResult->fetch_assoc();
-                $firstId = $firstEvent['idZadania'];
-                echo '<a href="event-detail.php?id=' . $firstId . '" class="button">Następne wydarzenie <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></a>';
+                 $firstEventSql = "SELECT * FROM zadania ORDER BY idZadania ASC LIMIT 1";
+                 $firstEventResult = $conn->query($firstEventSql);
+                 $firstEvent = $firstEventResult->fetch_assoc();
+                 $firstId = $firstEvent['idZadania'];
+                 echo '<a href="event-detail.php?id=' . $firstId . '" class="button">Następne wydarzenie <i class="fas fa-arrow-right" style="margin-left: 5px;"></i></a>';
             }
             ?>
         </div>
     </div>
 </body>
 </html>
+
+
