@@ -63,16 +63,32 @@
         .collapsed-main {
             margin-left: 0 !important;
         }
+
+        .collapsed-navbar {
+            margin-left: 0 !important;
+            width: 100% !important;
+        }
+
+        #burger-icon {
+            color: #000;
+            background-color: whitesmoke;
+            border: 1px solid #000;
+            width: 40px;
+            height: 40px;
+            font-weight: bold;
+            font-size: 20px;
+        }
     </style>
 </head>
 
 <body>
     <div class="navbar">
-        <button id="burger-icon" class="btn-burger hidden">&#9776;</button>
-        <div class="navbar-brand"><?php echo str_replace('-', ' ', basename($_SERVER['SCRIPT_FILENAME'], ".php")); ?>
+        <button id="burger-icon" class="btn-burger hidden-burger">&#9776;</button>
+        <div class="navbar-brand"><?php echo ucwords(str_replace('-', ' ', basename($_SERVER['SCRIPT_FILENAME'], ".php"))); ?>
         </div>
 
     </div>
+    <script src="toggle-navbar.js"></script>
 </body>
 
 </html>
