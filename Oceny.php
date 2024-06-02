@@ -1,20 +1,7 @@
-<?php include 'navbar.php';
-
-require_once './php/dbConnect.php';
-require_once './class/uzytkownik.php';
-require_once './class/przedmiot.php';
-
-/*
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php'); // Redirect to login page if not logged in
-    exit();
-}
-
-$idUzytkownika = $_SESSION['user_id'];
-*/
-
-$idUzytkownika = 248658; // Temporary user ID
+<?php require('php/dbConnect.php');
+require('php/verifyUser.php');
+require('class/przedmiot.php');
+require('navbar.php');
 
 // Get the subject ID from the query parameter
 $idPrzedmiotu = isset($_GET['idPrzedmiotu']) ? intval($_GET['idPrzedmiotu']) : null;
@@ -24,12 +11,14 @@ if (!$idPrzedmiotu) {
     exit();
 }
 
+$userId = $user->getId();
+
 
 // Create an instance of the Przedmiot class
 $przedmiot = new Przedmiot($conn);
 
 // Fetch activities and their grades for the user in the specific subject
-$grades = $przedmiot->getGradesFromActivity($idUzytkownika, $idPrzedmiotu);
+$grades = $przedmiot->getGradesFromActivity($userId, $idPrzedmiotu);
 ?>
 
 <!DOCTYPE html>
@@ -120,12 +109,12 @@ $grades = $przedmiot->getGradesFromActivity($idUzytkownika, $idPrzedmiotu);
     <main>
         <h1 class="title"><?php echo htmlspecialchars($przedmiot->getTitle($idPrzedmiotu)); ?></h1>
         <?php
-        if ($idUzytkownika) {
+        if ($userId) {
             // Create an instance of the Przedmiot class
             $przedmiot = new Przedmiot($conn);
 
             // Fetch subjects assigned to the user
-            $subjects = $przedmiot->getSubjectsByUser($idUzytkownika);
+            $subjects = $przedmiot->getSubjectsByUser($userId);
 
             // Generate HTML divs
             $html = '';
