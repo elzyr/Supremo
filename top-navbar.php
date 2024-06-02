@@ -78,6 +78,10 @@
             font-weight: bold;
             font-size: 20px;
         }
+
+       .collapsed-main #calendar {
+        margin-left: 0;
+       }
     </style>
 </head>
 
