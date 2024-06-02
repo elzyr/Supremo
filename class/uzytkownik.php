@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("./php/validateInput.php");
 class Uzytkownik
 {
@@ -100,15 +101,8 @@ class Uzytkownik
         return $this->name;
     }
 
-    public function getUserIdByEmail($email): int
+    public function getId(): int
     {
-        require("./php/dbConnect.php");
-        $sql = 'SELECT idUzytkownika FROM uzytkownicy WHERE email = ?';
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param('s', $email);
-        $stmt->execute();
-        $stmt->bind_result($idUzytkownika);
-        $stmt->fetch();
-        return $idUzytkownika;
+        return $this->id;
     }
 }
