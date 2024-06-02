@@ -22,8 +22,6 @@
             /* Kolor tła paska nawigacyjnego */
             color: #fff;
             /* Kolor tekstu */
-            padding: 10px 20px;
-            /* Wewnętrzny padding */
             box-sizing: border-box;
             /* Uwzględniamy padding w szerokości */
             display: flex;
@@ -41,15 +39,6 @@
             /* Pogrubienie tekstu */
             font-size: 25px;
             /* Zwiększenie rozmiaru czcionki */
-        }
-
-        .burger-icon {
-            font-size: 24px;
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            margin-right: 10px;
         }
 
         .hidden-burger {
@@ -77,11 +66,8 @@
             height: 40px;
             font-weight: bold;
             font-size: 20px;
+            margin-left: 20px;
         }
-
-       .collapsed-main #calendar {
-        margin-left: 0;
-       }
     </style>
 </head>
 
