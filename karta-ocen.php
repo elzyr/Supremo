@@ -1,4 +1,8 @@
-<?php include 'navbar.php'; ?>
+<?php require('navbar.php'); 
+require('php/verifyUser.php');
+require('class/przedmiot.php');
+require('php/dbConnect.php');?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -72,30 +76,17 @@
 <body>
     <main>
         <?php
-        require_once './php/dbConnect.php';
-        require_once './class/uzytkownik.php';
-        require_once './class/przedmiot.php';
 
-        // Commented 'cause i need to check if db works
+        // Get userId from session
 
-        /*
-    // Create an instance of the User class
-    
-    $user = new Uzytkownik($conn);
+        $userId = $user->getId();
 
-    // Define the user's email (this can be retrieved from session, form, etc.)
-    $userEmail = 'example@example.com';
-
-    // Fetch user ID based on email
-    $idUzytkownika = $user->getUserIdByEmail($userEmail);
-    */
-        $idUzytkownika = 248658;
-        if ($idUzytkownika) {
+        if ($userId) {
             // Create an instance of the Przedmiot class
             $przedmiot = new Przedmiot($conn);
 
             // Fetch subjects assigned to the user
-            $subjects = $przedmiot->getSubjectsByUser($idUzytkownika);
+            $subjects = $przedmiot->getSubjectsByUser($userId);
 
             // Generate HTML divs
             $html = '';
