@@ -1,4 +1,4 @@
-<?php include 'top-navbar.php'; ?>
+<?php require('top-navbar.php'); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,20 +8,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--link rel="stylesheet" href="navbar.css"> <!-- Nowe połączenie do pliku CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>  /*nie chce dzialac z plikiem((*/
+    <style>
+        /*nie chce dzialac z plikiem((*/
         body {
             margin: 0;
             background-color: whitesmoke;
         }
 
-        .header {
+        #header {
             background-color: #3180c9;
             color: white;
-            padding: 10px;
             text-align: center;
             font-weight: 400;
             margin: 0;
             font-size: 34px;
+            margin-top: 20px;
         }
 
         nav {
@@ -32,13 +33,12 @@
             display: flex;
             flex-direction: column;
             background-color: #3180c9;
-            padding: 10px;
             color: white;
             width: 200px;
             align-items: center;
         }
 
-        nav .left-nav {
+        .left-nav {
             margin-bottom: auto;
             display: flex;
             flex-direction: column;
@@ -51,7 +51,7 @@
             width: 90%;
         }
 
-        .left-nav ul {
+        #nav-list {
             list-style-type: none;
             margin: 0;
             padding: 0;
@@ -61,17 +61,17 @@
             width: 100%;
         }
 
-        nav ul li {
+        .nav-list-line {
             width: 100%;
             text-align: center;
             margin-bottom: 10px;
         }
 
-        nav ul li:last-child {
+        .nav-list-line:last-child {
             margin-bottom: 0;
         }
 
-        nav ul li a {
+        .nav-list-line-link {
             color: white;
             text-decoration: none;
             border: 2px solid transparent;
@@ -86,7 +86,7 @@
             flex-wrap: nowrap;
         }
 
-        nav ul li a i {
+        .fas {
             margin-right: 10px;
         }
 
@@ -96,6 +96,7 @@
             border-radius: 10px;
             color: black;
             padding: 10px 20px;
+            margin-bottom: 20px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
@@ -113,7 +114,7 @@
             margin-bottom: auto;
         }
 
-        nav ul li.active a {
+        .active .nav-list-line-link {
             border-color: white;
             background-color: white;
             color: #3180c9;
@@ -144,25 +145,22 @@
 
 <body>
     <nav class="left-navi">
-        <div class="header">&lt;S&gt;upremo</div>
+        <div id="header">&lt;S&gt;upremo</div>
         <div class="left-nav">
-            <ul>
-                <li <?php if (basename($_SERVER['PHP_SELF']) == 'Eventy.php')
-                    echo 'class="active"'; ?>><a
-                        href="Eventy.php"><i class="fas fa-calendar-alt"></i> Eventy</a></li>
-                <li <?php if (basename($_SERVER['PHP_SELF']) == 'Kalendarz.php')
-                    echo 'class="active"'; ?>><a
-                        href="Kalendarz.php"><i class="fas fa-calendar"></i> Kalendarz</a></li>
-                <li <?php if (basename($_SERVER['PHP_SELF']) == 'plan-tygodnia.php')
-                    echo 'class="active"'; ?>><a
-                        href="plan-tygodnia.php"><i class="fas fa-tasks"></i> Plan tygodnia</a></li>
-                <li <?php if (basename($_SERVER['PHP_SELF']) == 'karta-ocen.php')
-                    echo 'class="active"'; ?>><a
-                        href="karta-ocen.php"><i class="fas fa-book"></i> Karta ocen</a></li>
+            <ul id="nav-list">
+                <li class="nav-list-line <?php if (basename($_SERVER['PHP_SELF']) == 'Eventy.php')
+                                                echo ' active'; ?>"><a class="nav-list-line-link" href="Eventy.php"><i class="fas fa-calendar-alt"></i> Eventy</a></li>
+                <li class="nav-list-line <?php if (basename($_SERVER['PHP_SELF']) == 'Kalendarz.php')
+                                                echo ' active'; ?>"><a class="nav-list-line-link" href="Kalendarz.php"><i class="fas fa-calendar"></i> Kalendarz</a></li>
+                <li class="nav-list-line <?php if (basename($_SERVER['PHP_SELF']) == 'plan-tygodnia.php')
+                                                echo ' active'; ?>"><a class="nav-list-line-link" href="plan-tygodnia.php"><i class="fas fa-tasks"></i> Plan tygodnia</a></li>
+                <li class="nav-list-line <?php if (basename($_SERVER['PHP_SELF']) == 'karta-ocen.php')
+                                                echo ' active'; ?>"><a class="nav-list-line-link" href="karta-ocen.php"><i class="fas fa-book"></i> Karta ocen</a></li>
             </ul>
         </div>
         <div class="right-nav">
-            <a href="login.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Wyloguj</a>
+            
+            <a href="logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Wyloguj</a>
         </div>
     </nav>
 </body>

@@ -22,8 +22,6 @@
             /* Kolor tła paska nawigacyjnego */
             color: #fff;
             /* Kolor tekstu */
-            padding: 10px 20px;
-            /* Wewnętrzny padding */
             box-sizing: border-box;
             /* Uwzględniamy padding w szerokości */
             display: flex;
@@ -43,15 +41,6 @@
             /* Zwiększenie rozmiaru czcionki */
         }
 
-        .burger-icon {
-            font-size: 24px;
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-
         .hidden-burger {
             display: none;
         }
@@ -63,16 +52,33 @@
         .collapsed-main {
             margin-left: 0 !important;
         }
+
+        .collapsed-navbar {
+            margin-left: 0 !important;
+            width: 100% !important;
+        }
+
+        #burger-icon {
+            color: #000;
+            background-color: whitesmoke;
+            border: 1px solid #000;
+            width: 40px;
+            height: 40px;
+            font-weight: bold;
+            font-size: 20px;
+            margin-left: 20px;
+        }
     </style>
 </head>
 
 <body>
     <div class="navbar">
-        <button id="burger-icon" class="btn-burger hidden">&#9776;</button>
-        <div class="navbar-brand"><?php echo str_replace('-', ' ', basename($_SERVER['SCRIPT_FILENAME'], ".php")); ?>
+        <button id="burger-icon" class="btn-burger hidden-burger">&#9776;</button>
+        <div class="navbar-brand"><?php echo ucwords(str_replace('-', ' ', basename($_SERVER['SCRIPT_FILENAME'], ".php"))); ?>
         </div>
 
     </div>
+    <script src="toggle-navbar.js"></script>
 </body>
 
 </html>
