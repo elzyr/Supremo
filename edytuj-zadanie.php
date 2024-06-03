@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="container">
         <h1>Edytuj zadanie</h1>
-        <form action="edit-task.php?id=<?php echo $task->getId(); ?>" method="post">
+        <form action="edytuj-zadanie.php?id=<?php echo $task->getId(); ?>" method="post">
             <label for="tytul">Tytuł:</label>
             <input type="text" id="tytul" name="title" value="<?php echo htmlspecialchars($task->getTitle()); ?>" required>
             <label for="opis">Opis:</label>

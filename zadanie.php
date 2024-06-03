@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p><strong>Data zakończenia:</strong> <?php echo htmlspecialchars($task->getEndDate()); ?></p>
 
         <div class="buttons-container">
-            <a href="edit-task.php?id=<?php echo $task->getId(); ?>" class="button">Edytuj</a>
+            <a href="edytuj-zadanie.php?id=<?php echo $task->getId(); ?>" class="button">Edytuj</a>
             <form method="post" onsubmit="return confirm('Czy na pewno chcesz usunąć to zadanie?');">
                 <input type="hidden" name="id" value="<?php echo $task->getId(); ?>">
                 <button type="submit" class="button button-red">Usuń</button>
