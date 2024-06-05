@@ -17,19 +17,13 @@ require('php/dbConnect.php'); ?>
 <body>
     <main>
         <?php
-
-        // Get userId from session
-
         $userId = $user->getId();
 
         if ($userId) {
-            // Create an instance of the Przedmiot class
             $przedmiot = new Przedmiot($conn);
 
-            // Fetch subjects assigned to the user
             $subjects = $przedmiot->getSubjectsByUser($userId);
 
-            // Generate HTML divs
             $html = '';
             $html .= '<div class="subjects">';
             foreach ($subjects as $subject) {
@@ -39,7 +33,6 @@ require('php/dbConnect.php'); ?>
                 $html .= '</div>';
             }
 
-            // Output the generated HTML
             $html .= '</div>';
             echo $html;
         } else {
