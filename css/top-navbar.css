@@ -6,32 +6,20 @@ body {
 
 .navbar {
     height: 80px;
-    /* Zmiana wysokości paska nawigacyjnego na 50 pikseli */
     width: calc(100% - 200px);
-    /* Rozciągamy do końca ekranu po odjęciu 200 pikseli */
     margin-left: 200px;
-    /* Początek paska nawigacyjnego od 200 pikseli */
     background-color: #333;
-    /* Kolor tła paska nawigacyjnego */
     color: #fff;
-    /* Kolor tekstu */
     box-sizing: border-box;
-    /* Uwzględniamy padding w szerokości */
     display: flex;
-    /* Flexbox dla centrowania elementów */
     justify-content: flex-start;
-    /* Wyrównanie elementów do lewej i prawej strony */
     align-items: center;
-    /* Wyrównanie elementów w pionie */
 }
 
 .navbar-brand {
     margin-left: 10px;
-    /* Przesunięcie napisu w prawo o 5 pikseli */
     font-weight: bold;
-    /* Pogrubienie tekstu */
     font-size: 25px;
-    /* Zwiększenie rozmiaru czcionki */
 }
 
 .hidden-burger {
@@ -43,7 +31,7 @@ body {
 }
 
 .collapsed-main {
-    margin-left: 0 !important;
+    margin-left: 25px !important;
 }
 
 .collapsed-navbar {
