@@ -26,7 +26,6 @@
             </ul>
         </div>
         <div class="right-nav">
-
             <a href="logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Wyloguj</a>
         </div>
     </nav>

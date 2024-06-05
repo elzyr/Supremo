@@ -1,36 +1,67 @@
 body {
   font-family: Helvetica, "Times New Roman", Times, serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
 }
+
+a {
+  text-decoration: none;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 20px auto;
+  box-sizing: border-box;
+}
+
+.edit-container {
+  background-color: white;
   padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 20px auto;
+  width: 100%;
 }
 
 .day-container {
   background-color: #fff;
   width: 100%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin: 10px;
-  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .day-header {
-  margin: 0 0 10px 0;
-  padding: 0;
-  color: #333;
-  font-size: 20px;
+  margin: 0;
+  color: #34495e;
+  font-size: 24px;
+  padding-top: 20px;
   text-align: center;
+  background-color: #ffffff;
+}
+
+.day-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #666;
 }
 
 .task-container {
   display: flex;
   width: 100%;
-  height: 50px;
+  height: 80px;
+  background-color: #fff;
+  position: relative;
+  box-sizing: border-box;
+  border-top: 1px solid #ddd;
 }
 
 .task,
@@ -40,30 +71,35 @@ body {
   align-items: center;
   font-size: 14px;
   line-height: 20px;
-}
-
-.task {
-  background-color: #ddd;
-  border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .empty-slot {
-  background-color: #f0f0f0;
+  background-color: #f8f9fa;
   color: #ccc;
   opacity: 0;
 }
-.day-time {
-  font-size: 14px;
-  color: #666;
-  padding: 5px 10px;
+
+.empty-slot:hover {
+  cursor: cell;
 }
 
 .start-time {
-  float: left;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px;
+  font-size: 12px;
+  color: #ffffff;
 }
 
 .end-time {
-  float: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 5px;
+  font-size: 12px;
+  color: #ffffff;
 }
 
 .tooltip {
@@ -91,4 +127,91 @@ body {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+.day-container:not(:last-child) {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.task {
+  color: white;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #6670f0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+.cookie-message {
+  color: white;
+  text-align: center;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  opacity: 1;
+  animation: fadeOut 1s ease-out 2s forwards;
+}
+.success {
+  background-color: green;
+}
+.error {
+  background-color: red;
+}
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(240, 102, 112, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(240, 102, 112, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(240, 102, 112, 0.6);
+  }
+}
+
+.important {
+  background-color: #f06670;
+  box-shadow: 0 0 10px rgba(240, 102, 112, 0.6);
+  border: 2px solid #e0555a;
+  border-radius: 5px;
+  animation: pulseGlow 2s infinite;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+.task-title {
+  font-size: 100%;
+}
+
+@media (max-width: 768px) {
+  .day-header {
+    font-size: 18px;
+    padding: 15px 0;
+  }
+
+  .task,
+  .empty-slot {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .day-header {
+    font-size: 16px;
+    padding: 10px 0;
+  }
+
+  .task,
+  .empty-slot {
+    font-size: 10px;
+  }
 }

@@ -1,6 +1,6 @@
 <?php
-include("class/uzytkownik.php");
-$user = Uzytkownik::loadFromSession();
-if (!$user) {
+include("class/User.php");
+$user = User::loadFromSession();
+if (!$user || !$user instanceof User) {
     header('Location: login.php');
 }
