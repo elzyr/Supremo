@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Maj 31, 2024 at 11:15 PM
+-- Generation Time: Cze 05, 2024 at 10:04 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -20,6 +20,74 @@ SET time_zone = "+00:00";
 --
 -- Database: `supremo`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `aktywnosci`
+--
+
+CREATE TABLE `aktywnosci` (
+  `idAktywnosci` int(11) NOT NULL,
+  `idPrzedmiotu` int(11) NOT NULL,
+  `nazwa` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `aktywnosci`
+--
+
+INSERT INTO `aktywnosci` (`idAktywnosci`, `idPrzedmiotu`, `nazwa`) VALUES
+(1, 1, 'Lab GitHub ^_^'),
+(2, 2, 'Figma'),
+(3, 3, 'Server'),
+(4, 1, 'Suszarka');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `oceny`
+--
+
+CREATE TABLE `oceny` (
+  `idOceny` int(11) NOT NULL,
+  `idUzytkownika` int(11) NOT NULL,
+  `idPrzedmiotu` int(11) NOT NULL,
+  `idAktywnosci` int(11) NOT NULL,
+  `ocena` decimal(3,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `oceny`
+--
+
+INSERT INTO `oceny` (`idOceny`, `idUzytkownika`, `idPrzedmiotu`, `idAktywnosci`, `ocena`) VALUES
+(1, 248658, 1, 1, 2.00),
+(784654, 248658, 1, 4, 3.00),
+(981654, 248658, 2, 2, 2.00),
+(8749651, 248658, 3, 3, 3.00);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `przedmiot`
+--
+
+CREATE TABLE `przedmiot` (
+  `idPrzedmiotu` int(11) NOT NULL,
+  `nazwa` varchar(100) DEFAULT NULL,
+  `idUzytkownika` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `przedmiot`
+--
+
+INSERT INTO `przedmiot` (`idPrzedmiotu`, `nazwa`, `idUzytkownika`) VALUES
+(1, 'PIO', 248658),
+(2, 'KCK', 248658),
+(3, 'Java', 248658),
+(4, 'SO2', 248658);
 
 -- --------------------------------------------------------
 
@@ -41,6 +109,7 @@ CREATE TABLE `uzytkownicy` (
 --
 
 INSERT INTO `uzytkownicy` (`idUzytkownika`, `imie`, `nazwisko`, `email`, `nrTelefonu`, `haslo`) VALUES
+(248658, 'ILYA', 'KHOTSIM', 'ilyathebest0@gmail.com', '720417342', 'c4048b088d3fe9adf1bec674b4cc4ddc'),
 (1, 'Kamil', 'Winczewski', 'kamilwinczewski52@gmail.com', '535979774', '81dc9bdb52d04dc20036dbd8313ed055');
 
 -- --------------------------------------------------------
@@ -88,6 +157,29 @@ CREATE TABLE `zadaniauzytkownikow` (
 --
 
 --
+-- Indeksy dla tabeli `aktywnosci`
+--
+ALTER TABLE `aktywnosci`
+  ADD PRIMARY KEY (`idAktywnosci`),
+  ADD KEY `idPrzedmiotu` (`idPrzedmiotu`);
+
+--
+-- Indeksy dla tabeli `oceny`
+--
+ALTER TABLE `oceny`
+  ADD PRIMARY KEY (`idOceny`),
+  ADD KEY `idUzytkownika` (`idUzytkownika`),
+  ADD KEY `idPrzedmiotu` (`idPrzedmiotu`),
+  ADD KEY `idAktywnosci` (`idAktywnosci`);
+
+--
+-- Indeksy dla tabeli `przedmiot`
+--
+ALTER TABLE `przedmiot`
+  ADD PRIMARY KEY (`idPrzedmiotu`),
+  ADD KEY `idUzytkownika` (`idUzytkownika`);
+
+--
 -- Indeksy dla tabeli `uzytkownicy`
 --
 ALTER TABLE `uzytkownicy`
@@ -112,6 +204,18 @@ ALTER TABLE `zadaniauzytkownikow`
 --
 
 --
+-- AUTO_INCREMENT for table `aktywnosci`
+--
+ALTER TABLE `aktywnosci`
+  MODIFY `idAktywnosci` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `oceny`
+--
+ALTER TABLE `oceny`
+  MODIFY `idOceny` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
 -- AUTO_INCREMENT for table `uzytkownicy`
 --
 ALTER TABLE `uzytkownicy`
@@ -132,6 +236,26 @@ ALTER TABLE `zadaniauzytkownikow`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `aktywnosci`
+--
+ALTER TABLE `aktywnosci`
+  ADD CONSTRAINT `aktywnosci_ibfk_1` FOREIGN KEY (`idPrzedmiotu`) REFERENCES `przedmiot` (`idPrzedmiotu`);
+
+--
+-- Constraints for table `oceny`
+--
+ALTER TABLE `oceny`
+  ADD CONSTRAINT `oceny_ibfk_1` FOREIGN KEY (`idUzytkownika`) REFERENCES `uzytkownicy` (`idUzytkownika`),
+  ADD CONSTRAINT `oceny_ibfk_2` FOREIGN KEY (`idPrzedmiotu`) REFERENCES `przedmiot` (`idPrzedmiotu`),
+  ADD CONSTRAINT `oceny_ibfk_3` FOREIGN KEY (`idAktywnosci`) REFERENCES `aktywnosci` (`idAktywnosci`);
+
+--
+-- Constraints for table `przedmiot`
+--
+ALTER TABLE `przedmiot`
+  ADD CONSTRAINT `przedmiot_ibfk_1` FOREIGN KEY (`idUzytkownika`) REFERENCES `uzytkownicy` (`idUzytkownika`);
 
 --
 -- Constraints for table `zadaniauzytkownikow`
