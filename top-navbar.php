@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div class="navbar"> <!--TODO: Cześć, User!-->
+    <div class="navbar">
         <div class="top-nav-left">
             <button id="burger-icon" class="btn-burger hidden-burger">&#9776;</button>
             <div class="navbar-brand">
