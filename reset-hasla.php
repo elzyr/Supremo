@@ -34,10 +34,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Przypomnij hasło</title>
     <link rel="stylesheet" href="css/reset-hasla.css">
+    <link rel="stylesheet" href="css/navbar.css">
 </head>
 
 <body>
-    <div class="container">
+    <main class="container">
         <h2>&lt;S&gt; upremo</h2>
         <form method="post">
             <div class="form-group">
@@ -53,9 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="error-message"><?php echo $error_message; ?></div>
             <?php endif; ?>
             <button type="submit" class="btn forgot_password">Zmień Hasło</button>
-            
         </form>
-    </div>
+    </main>
 </body>
 
 </html>
