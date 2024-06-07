@@ -11,6 +11,7 @@ if (!class_exists('User')) {
         private string $hashedPassword;
         private int $id;
         private string $name;
+        private string $phoneNumber; 
 
         public function __construct(string $email, string $password)
         {
@@ -27,6 +28,7 @@ if (!class_exists('User')) {
                 $row = $result->fetch_assoc();
                 $this->id = $row["idUzytkownika"];
                 $this->name = $row["imie"];
+                $this->phoneNumber = $row["nrTelefonu"];
                 $this->saveToSession();
                 $conn->close();
                 return true;
@@ -105,13 +107,20 @@ if (!class_exists('User')) {
         {
             return $this->email;
         }
+
         public function getName(): string
         {
             return $this->name;
         }
+
         public function getId(): int
         {
             return $this->id;
+        }
+
+        public function getPhoneNumber(): string
+        {
+            return $this->phoneNumber;
         }
     }
 }

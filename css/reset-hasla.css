@@ -16,7 +16,8 @@ main.container {
   max-width: 400px;
   width: 100%;
   text-align: center;
-  margin-top: 20px; 
+  margin-top: 50px; 
+  margin-left: center;
 }
 
 main.container h2 {
@@ -44,13 +45,20 @@ main.container h2 {
 }
 
 .btn {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
   padding: 10px 20px;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-family: "Inter";
+  font-size: 24px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  background-color: #7372e6;
+  color: white;
+  border-radius: 25px;
+  margin-bottom: 30px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+    transform 0.2s ease;
 }
 
 .btn:hover {
