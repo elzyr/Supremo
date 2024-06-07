@@ -1,5 +1,6 @@
 <?php
-include("class/User.php");
+include_once("class/User.php");
+require_once('navbar.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
@@ -32,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Przypomnij hasło</title>
-    <link rel="stylesheet" href="css/forms.css">
+    <link rel="stylesheet" href="css/reset-hasla.css">
 </head>
 
 <body>
@@ -52,9 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="error-message"><?php echo $error_message; ?></div>
             <?php endif; ?>
             <button type="submit" class="btn forgot_password">Zmień Hasło</button>
-            <a href="login.php">
-                <button type="button" class="btn btn-login">Zaloguj się</button>
-            </a>
+            
         </form>
     </div>
 </body>
