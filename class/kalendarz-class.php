@@ -95,7 +95,7 @@ class Calendar {
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
             $classes .= 'inMonth ';
         }
-    
+        
         $tasks = $this->getTaskInDay($this->currentDate, $userId);
         $TaskInDay = '';
         $count = 0;

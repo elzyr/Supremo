@@ -9,13 +9,13 @@ body {
     font-family:Helvetica, "Times New Roman", Times, serif;
     background-color: #f0f0f0;
 }
-
-.box-calendar {
+.main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ccc;
+    margin-left: 200px;
 }
 
 .box-content {
@@ -106,6 +106,7 @@ body {
     border-radius: 50%;
     align-self: flex-end;
     right: 5px;
+    background-color: #3180c9
 }
 .taskInDay.important{
     background-color: red; 
