@@ -53,6 +53,12 @@ class Calendar {
         $result = $this->conn->query($query);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
+    private function isToday(int $month,int $day,int $year){
+        if($year == date("Y",time()) && $month == date("n",time()) && $day == date("j",time())){
+            return 1;
+        }
+        return 0;
+    }
 
     private function getDay($cellNumber, $userId) {
         $firstDayOfTheWeek = date('N', strtotime($this->currentYear.'-'.$this->currentMonth.'-01'));
@@ -77,7 +83,7 @@ class Calendar {
             $lastDayOfTheMonth = date('t', strtotime('last day of '.$currentYear.'-'.$currentMonth));
             $currentDayInMonth = $lastDayOfTheMonth - $firstDayOfTheWeek + $currentDayInWeek + 1;
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
-            $classes .= 'otherMonth ';
+            $classes .= 'cell otherMonth ';
         } elseif ($currentDayInMonth > $lastDayOfTheMonth) {
             if ($this->currentMonth == 12) {
                 $currentMonth = 1;
@@ -88,14 +94,18 @@ class Calendar {
             }
             $currentDayInMonth -= $lastDayOfTheMonth;
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
-            $classes .= 'otherMonth ';
+            $classes .= 'cell otherMonth ';
         } else {
             $currentMonth = $this->currentMonth;
             $currentYear = $this->currentYear;
             $this->currentDate = date('Y-m-d', strtotime($currentYear.'-'.$currentMonth.'-'.$currentDayInMonth));
-            $classes .= 'inMonth ';
+            if($this->isToday($currentMonth,$currentDayInMonth,$currentYear)){
+                $classes .= 'cell Today ';
+            }else{
+                $classes .= 'cell inMonth ';
+            }
         }
-        
+
         $tasks = $this->getTaskInDay($this->currentDate, $userId);
         $TaskInDay = '';
         $count = 0;
