@@ -24,6 +24,7 @@ nav {
   color: white;
   width: 200px;
   align-items: center;
+  z-index: 10000;
 }
 
 .left-nav {

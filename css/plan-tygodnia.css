@@ -8,6 +8,9 @@ body {
 a {
   text-decoration: none;
 }
+main {
+  margin-left: 200px;
+}
 
 .container {
   display: flex;
@@ -147,8 +150,8 @@ a {
   text-align: center;
   padding: 10px;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 80px;
+  left: 100px;
   width: 100%;
   z-index: 1000;
   opacity: 1;
@@ -192,6 +195,14 @@ a {
   font-size: 100%;
 }
 
+@media (max-width: 992px) {
+  main {
+    margin-left: 0px;
+  }
+  .cookie-message {
+    left: 0px;
+  }
+}
 @media (max-width: 768px) {
   .day-header {
     font-size: 18px;
