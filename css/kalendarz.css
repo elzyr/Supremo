@@ -144,6 +144,11 @@ body {
     .prev,.next,.YearMonth{
         font-size: 18px;
     }
+    .taskInDay{
+        width: 8px;
+        height: 8px;
+        right: 3px;
+    }
    
 }
   
@@ -151,5 +156,8 @@ body {
 @media (max-width: 600px) {
     .DayOfWeek{
         font-size: 8px;
+    }
+    .cell.inMonth,.cell.otherMonth,.cell.Today{
+        font-size: 12px;
     }
 }

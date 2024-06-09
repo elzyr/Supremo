@@ -48,6 +48,10 @@ body {
   display: none;
 }
 
+.collapsed-main {
+    margin-left: 0px !important;
+}
+
 .collapsed-navbar {
   margin-left: 0 !important;
   width: 100% !important;
