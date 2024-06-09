@@ -9,12 +9,23 @@ class Przedmiot
         $this->conn = $conn;
     }
 
-    // Create a new przedmiot
-    public function createPrzedmiot($nazwa)
+    public function getNextIdPrzedmiotu($userId)
     {
-        $sql = 'INSERT INTO przedmiot (nazwa) VALUES (?)';
+        $sql = 'SELECT MAX(idPrzedmiotu) AS idPrzedmiotu FROM przedmiot WHERE idUzytkownika = ?';
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param('s', $nazwa);
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc()['idPrzedmiotu'] + 1;
+
+    }
+
+    // Create a new przedmiot
+    public function createPrzedmiot($nazwa, $idUzytkownika, $idPrzedmiotu)
+    {
+        $sql = 'INSERT INTO przedmiot (nazwa, idUzytkownika, idPrzedmiotu) VALUES (?, ?, ?)';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param('sii', $nazwa, $idUzytkownika, $idPrzedmiotu);
         $stmt->execute();
         return $stmt->insert_id;
     }
