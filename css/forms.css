@@ -88,12 +88,6 @@ h2 {
   transform: translateY(1px);
 }
 
-.login-recovery {
-  text-align: center;
-  margin-top: 15px;
-  font-size: 12px;
-}
-
 .forgot_password {
   text-decoration: none;
   color: white;

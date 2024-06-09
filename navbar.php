@@ -23,6 +23,8 @@
                                                 echo ' active'; ?>"><a class="nav-list-line-link" href="plan-tygodnia.php"><i class="fas fa-tasks"></i> Plan tygodnia</a></li>
                 <li class="nav-list-line <?php if (basename($_SERVER['PHP_SELF']) == 'karta-ocen.php')
                                                 echo ' active'; ?>"><a class="nav-list-line-link" href="karta-ocen.php"><i class="fas fa-book"></i> Karta ocen</a></li>
+                <li class="nav-list-line <?php if (basename($_SERVER['PHP_SELF']) == 'reset-hasla.php')
+                                                echo ' active'; ?>"><a class="nav-list-line-link" href="reset-hasla.php"><i class="fas fa-key"></i> Zmień hasło</a></li>                                
             </ul>
         </div>
         <div class="right-nav">
