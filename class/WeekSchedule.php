@@ -8,10 +8,12 @@ class WeekSchedule
         $this->conn = $conn;
     }
 
-
     public function renderDay($dayName, $dayDate, $tasks, $startOfDay, $endOfDay)
     {
-        echo "<div class='day-container'>";
+        $currentDate = date('Y-m-d');
+        $currentDay = $dayDate === $currentDate ? 'current-day' : '';
+
+        echo "<div class='day-container $currentDay'>";
         echo "<h2 class='day-header'>$dayName - $dayDate</h2>";
         echo "<div class='day-time'><span class='start-of-day'>{$startOfDay}</span><span class='end-of-day'>{$endOfDay}</span></div>";
         echo '<div class="task-container">';
@@ -84,7 +86,6 @@ class WeekSchedule
         $width = $this->calculateWidth($startTimeIndex, $endTimeIndex);
         return "<div class='empty-slot' data-date='$date' style='flex: 0 0 {$width}%' title='dodaj zadanie' onclick='window.location.href=\"dodaj-zadanie.php?taskDate=" . $date . "\"'></div>";
     }
-
 
     private function getTasksForDay($day, $userId)
     {
