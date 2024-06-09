@@ -56,6 +56,7 @@ main {
   text-align: center;
   align-items: center;
   padding: 10px 20px;
+  margin: 10px 20px;
   background-color: #7372e6;
   color: #fff;
   text-decoration: none;
@@ -68,6 +69,77 @@ main {
 }
 
 .go-back-button:hover {
+  background-color: #3180c9;
+  cursor: pointer;
+}
+
+.hidden-new-activity {
+  display: none !important;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: #f9f9f9;
+  max-width: 80%;
+  box-shadow: 0 7px 4px #bbb;
+}
+
+#nazwa,
+#ocena {
+  width: calc(100% - 60px);
+  padding: 10px 20px;
+  margin: 10px 0; 
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+#add-activity-to-db {
+  padding: 10px 20px;
+  background-color: #7372e6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+#add-activity-to-db:hover {
+  background-color: #3180c9;
+}
+
+.add-activity {
+  padding: 10px 20px;
+}
+
+#add-activity-button {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #7372e6;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 71px;
+  font-weight: 400;
+  height: 50%;
+  width: 20%;
+  max-width: 200px;
+  box-shadow: 0 3px 4px #bbb;
+  font-size: 1.2em;
+}
+
+#add-activity-button:hover {
   background-color: #3180c9;
   cursor: pointer;
 }

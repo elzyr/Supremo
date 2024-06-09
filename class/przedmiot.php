@@ -59,11 +59,11 @@ class Przedmiot
     }
 
     // Add an activity to przedmiot
-    public function addActivity($idPrzedmiotu, $nazwa)
+    public function addActivity($idPrzedmiotu, $nazwa, $idAktywnosci)
     {
-        $sql = 'INSERT INTO aktywnosci (idPrzedmiotu, nazwa) VALUES (?, ?)';
+        $sql = 'INSERT INTO aktywnosci (idPrzedmiotu, nazwa, idAktywnosci) VALUES (?, ?, ?)';
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param('is', $idPrzedmiotu, $nazwa);
+        $stmt->bind_param('isi', $idPrzedmiotu, $nazwa, $idAktywnosci);
         $stmt->execute();
         return $stmt->insert_id;
     }
@@ -130,6 +130,16 @@ class Przedmiot
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_assoc()['nazwa'];
+    }
+
+    public function getNextActivityId($idPrzedmiotu)
+    {
+        $sql = 'SELECT MAX(idAktywnosci) AS idAktywnosci FROM aktywnosci WHERE idPrzedmiotu = ?';
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param('i', $idPrzedmiotu);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc()['idAktywnosci'] + 1;
     }
 }
 ?>
