@@ -19,7 +19,7 @@ body {
     flex-wrap: wrap;
     justify-content: left;
     gap: 20px;
-    margin-left: 300px;
+    margin-left: 200px;
 }
 .content main .card {
     max-width: 30%;

@@ -1,4 +1,9 @@
-<?php //require('navbar.php');?>
+<?php 
+require('navbar.php');
+require_once("php/verifyUser.php");
+require('php/dbConnect.php');
+include 'class/kalendarz-class.php';
+?>
 <html>
 <head>   
 <link href="css/kalendarz.css" type="text/css" rel="stylesheet" />
@@ -19,22 +24,20 @@
 </script>
 
 <?php
-include 'class/kalendarz-class.php';
-require("php/verifyUser.php");
-require('php/dbConnect.php');
 $calendar = new Calendar($conn);?>
 
-<div id="calendar">
-    <div class="box-calendar" >
-        <?php echo $calendar->createHeader();?>
-        <div class="box-content">
-            <ul class="label"><?php echo $calendar->createDaysOfWeek();?></ul>
-            <div class="clear"></div>
-            <?php echo $calendar->showDayInCalendar($user);
-            $conn->close();?>
-        </div>
+    <div id="content">
+        <main class="main" >
+            <?php echo $calendar->createHeader();?>
+            <div class="box-content">
+               <ul class="label"><?php echo $calendar->createDaysOfWeek();?></ul>
+               <div class="clear"></div>
+               <?php echo $calendar->showDayInCalendar($user);
+               $conn->close();?>
+            </div>
+    </main>
     </div>
-</div>
+
 
 </body>
 </html>
