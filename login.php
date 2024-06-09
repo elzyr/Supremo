@@ -44,9 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="error-message"><?php echo $error_message; ?></div>
             <?php endif; ?>
             <button type="submit" class="btn btn-login">Zaloguj się</button>
-            <div class="login-recovery">
-                <a href="reset-hasla.php" class="forgot_password">Forgot password?</a>
-            </div>
         </form>
     </div>
 </body>
