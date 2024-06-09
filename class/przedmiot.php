@@ -132,11 +132,10 @@ class Przedmiot
         return $result->fetch_assoc()['nazwa'];
     }
 
-    public function getNextActivityId($idPrzedmiotu)
+    public function getNextActivityId()
     {
-        $sql = 'SELECT MAX(idAktywnosci) AS idAktywnosci FROM aktywnosci WHERE idPrzedmiotu = ?';
+        $sql = 'SELECT MAX(idAktywnosci) AS idAktywnosci FROM aktywnosci';
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param('i', $idPrzedmiotu);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_assoc()['idAktywnosci'] + 1;

@@ -16,7 +16,7 @@ $userId = $user->getId();
 $przedmiot = new Przedmiot($conn);
 
 $grades = $przedmiot->getGradesFromActivity($userId, $idPrzedmiotu);
-$idAktywnosci = $przedmiot->getNextActivityId($idPrzedmiotu);
+$idAktywnosci = $przedmiot->getNextActivityId();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nazwa'])) {
     $nazwa = trim($_POST['nazwa']);
