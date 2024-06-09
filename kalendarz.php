@@ -26,17 +26,15 @@ include 'class/kalendarz-class.php';
 <?php
 $calendar = new Calendar($conn);?>
 
-    <div id="content">
-        <main class="main" >
-            <?php echo $calendar->createHeader();?>
-            <div class="box-content">
-               <ul class="label"><?php echo $calendar->createDaysOfWeek();?></ul>
-               <div class="clear"></div>
-               <?php echo $calendar->showDayInCalendar($user);
-               $conn->close();?>
-            </div>
-    </main>
+<main class="main" >
+    <?php echo $calendar->createHeader();?>
+    <div class="box-content">
+        <ul class="label"><?php echo $calendar->createDaysOfWeek();?></ul>
+        <div class="clear"></div>
+        <?php echo $calendar->showDayInCalendar($user);
+        $conn->close();?>
     </div>
+</main>
 
 
 </body>
