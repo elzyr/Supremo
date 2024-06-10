@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Cze 05, 2024 at 10:04 PM
+-- Generation Time: Cze 10, 2024 at 12:19 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -33,16 +33,6 @@ CREATE TABLE `aktywnosci` (
   `nazwa` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `aktywnosci`
---
-
-INSERT INTO `aktywnosci` (`idAktywnosci`, `idPrzedmiotu`, `nazwa`) VALUES
-(1, 1, 'Lab GitHub ^_^'),
-(2, 2, 'Figma'),
-(3, 3, 'Server'),
-(4, 1, 'Suszarka');
-
 -- --------------------------------------------------------
 
 --
@@ -57,16 +47,6 @@ CREATE TABLE `oceny` (
   `ocena` decimal(3,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `oceny`
---
-
-INSERT INTO `oceny` (`idOceny`, `idUzytkownika`, `idPrzedmiotu`, `idAktywnosci`, `ocena`) VALUES
-(1, 248658, 1, 1, 2.00),
-(784654, 248658, 1, 4, 3.00),
-(981654, 248658, 2, 2, 2.00),
-(8749651, 248658, 3, 3, 3.00);
-
 -- --------------------------------------------------------
 
 --
@@ -78,16 +58,6 @@ CREATE TABLE `przedmiot` (
   `nazwa` varchar(100) DEFAULT NULL,
   `idUzytkownika` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `przedmiot`
---
-
-INSERT INTO `przedmiot` (`idPrzedmiotu`, `nazwa`, `idUzytkownika`) VALUES
-(1, 'PIO', 248658),
-(2, 'KCK', 248658),
-(3, 'Java', 248658),
-(4, 'SO2', 248658);
 
 -- --------------------------------------------------------
 
@@ -109,7 +79,6 @@ CREATE TABLE `uzytkownicy` (
 --
 
 INSERT INTO `uzytkownicy` (`idUzytkownika`, `imie`, `nazwisko`, `email`, `nrTelefonu`, `haslo`) VALUES
-(248658, 'ILYA', 'KHOTSIM', 'ilyathebest0@gmail.com', '720417342', 'c4048b088d3fe9adf1bec674b4cc4ddc'),
 (1, 'Kamil', 'Winczewski', 'kamilwinczewski52@gmail.com', '535979774', '81dc9bdb52d04dc20036dbd8313ed055');
 
 -- --------------------------------------------------------
@@ -137,7 +106,8 @@ INSERT INTO `zadania` (`idZadania`, `dataRozpoczecia`, `dataZakonczenia`, `tytul
 (49, '2024-06-03 08:00:00', '2024-06-02 10:00:00', 'Hackathon', 'Hackathon', 1),
 (50, '2024-06-05 10:00:00', '2024-06-05 11:00:00', 'Impreza', 'Zapraszam na impreze', 1),
 (51, '2024-06-07 10:00:00', '2024-06-07 13:00:00', 'Obiadek', 'Pyszny obiad.', 1),
-(52, '2024-06-04 08:00:00', '2024-06-04 13:00:00', 'Renault-Event', NULL, 1);
+(52, '2024-06-04 08:00:00', '2024-06-04 13:00:00', 'Renault-Event', NULL, 1),
+(65, '2024-06-05 12:00:00', '2024-06-05 14:00:00', 'czesc', '', 0);
 
 -- --------------------------------------------------------
 
@@ -151,6 +121,13 @@ CREATE TABLE `zadaniauzytkownikow` (
   `idZadania` int(11) DEFAULT NULL,
   `czyWazne` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `zadaniauzytkownikow`
+--
+
+INSERT INTO `zadaniauzytkownikow` (`id`, `idUzytkownika`, `idZadania`, `czyWazne`) VALUES
+(55, 1, 65, 0);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -207,13 +184,13 @@ ALTER TABLE `zadaniauzytkownikow`
 -- AUTO_INCREMENT for table `aktywnosci`
 --
 ALTER TABLE `aktywnosci`
-  MODIFY `idAktywnosci` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idAktywnosci` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `oceny`
 --
 ALTER TABLE `oceny`
-  MODIFY `idOceny` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `idOceny` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8749655;
 
 --
 -- AUTO_INCREMENT for table `uzytkownicy`
@@ -225,37 +202,17 @@ ALTER TABLE `uzytkownicy`
 -- AUTO_INCREMENT for table `zadania`
 --
 ALTER TABLE `zadania`
-  MODIFY `idZadania` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `idZadania` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `zadaniauzytkownikow`
 --
 ALTER TABLE `zadaniauzytkownikow`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `aktywnosci`
---
-ALTER TABLE `aktywnosci`
-  ADD CONSTRAINT `aktywnosci_ibfk_1` FOREIGN KEY (`idPrzedmiotu`) REFERENCES `przedmiot` (`idPrzedmiotu`);
-
---
--- Constraints for table `oceny`
---
-ALTER TABLE `oceny`
-  ADD CONSTRAINT `oceny_ibfk_1` FOREIGN KEY (`idUzytkownika`) REFERENCES `uzytkownicy` (`idUzytkownika`),
-  ADD CONSTRAINT `oceny_ibfk_2` FOREIGN KEY (`idPrzedmiotu`) REFERENCES `przedmiot` (`idPrzedmiotu`),
-  ADD CONSTRAINT `oceny_ibfk_3` FOREIGN KEY (`idAktywnosci`) REFERENCES `aktywnosci` (`idAktywnosci`);
-
---
--- Constraints for table `przedmiot`
---
-ALTER TABLE `przedmiot`
-  ADD CONSTRAINT `przedmiot_ibfk_1` FOREIGN KEY (`idUzytkownika`) REFERENCES `uzytkownicy` (`idUzytkownika`);
 
 --
 -- Constraints for table `zadaniauzytkownikow`
