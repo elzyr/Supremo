@@ -51,7 +51,7 @@
     </div>
 
     <script>
-        setTimeout(function() {
+        setTimeout(function () {
             window.location.href = 'strona-poczatkowa.php';
         }, 5000);
     </script>
