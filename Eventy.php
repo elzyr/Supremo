@@ -11,7 +11,7 @@ $events = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task List</title>
+    <title>Eventy!</title>
     <link rel="stylesheet" href="css/eventy.css">
 </head>
 <body>
@@ -28,7 +28,7 @@ $events = $conn->query($sql);
                                 if (file_exists($imagePath)) {
                                     echo '<img src="' . htmlspecialchars($imagePath) . '" alt="' . $title . '">';
                                 } else {
-                                    echo '<img src="./images/default.jpg" alt="Placeholder">';
+                                    echo '<img src="./images/default.jpg" alt="Brak zdjęcia!">';
                                 }
                                 ?>
                             </div>
@@ -40,7 +40,8 @@ $events = $conn->query($sql);
                     </div>
                 <?php endwhile; ?>
             <?php else: ?>
-                <p>No tasks found.</p>
+                <p>Nie znaleziono żadnych Eventów!
+                </p>
             <?php endif; ?>
         </main>
     </div>
