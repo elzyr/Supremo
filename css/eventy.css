@@ -1,6 +1,7 @@
 body {
     overflow-x: hidden;
 }
+
 .content * {
     padding: 0;
     margin: 0;
@@ -8,9 +9,11 @@ body {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     color: black;
 }
+
 .content html {
     font-size: 62.5%;
 }
+
 .content main {
     max-width: 1500px;
     width: 95%;
@@ -21,6 +24,7 @@ body {
     gap: 20px;
     margin-left: 200px;
 }
+
 .content main .card {
     max-width: 30%;
     flex: 1 1 30%;
@@ -34,9 +38,11 @@ body {
     border-radius: 20px;
     overflow: hidden;
 }
+
 .content main .card .image {
     height: 100%;
 }
+
 .content main .card .image img {
     width: 100%;
     height: 100%;
@@ -44,6 +50,7 @@ body {
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
+
 .content main .card .caption {
     position: absolute;
     bottom: 0;
@@ -54,9 +61,11 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+
 .content main .card .caption p {
     margin: 0;
 }
+
 .content main .card a {
     display: block;
     height: 100%;
