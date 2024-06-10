@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ocena'])) {
             $html .= '<a href="#" id="add-activity-button"><i class="fas fa-solid fa-plus"></i>Dodaj aktywność</a>';
             $html .= '</div>';
 
-            $html .= '<a class="go-back-button" onclick="window.history.back()"><i class="fas fa-solid fa-arrow-left"></i>Wstecz</a>';
+            $html .= '<a class="go-back-button" href="karta-ocen.php"><i class="fas fa-solid fa-arrow-left"></i>Wstecz</a>';
             $html .= '</div>';
             echo $html;
         } else {
