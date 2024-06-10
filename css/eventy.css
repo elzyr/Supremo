@@ -20,7 +20,7 @@ body {
     margin: 30px auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: left;
+    justify-content: center;
     gap: 20px;
     margin-left: 200px;
 }
@@ -71,4 +71,27 @@ body {
     height: 100%;
     text-decoration: none;
     color: inherit;
+}
+
+@media (max-width: 768px) {
+    .content main {
+        margin-left: 0;
+        justify-content: center;
+    }
+
+    .content main .card {
+        max-width: 100%;
+        flex: 1 1 100%;
+        height: auto;
+        min-width: 300px;
+    }
+
+    .content main .card .image {
+        height: auto;
+    }
+
+    .content main .card .image img {
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
 }
